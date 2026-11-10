@@ -26,21 +26,16 @@
       "note": "adjustment for the current state; not yet set"
     },
     "SPREAD": {
-      "value": 6.69,
-      "note": "standard deviation: 6.19% (last 24 months of misses) x $108.0B"
+      "value": 3.0,
+      "note": "standard deviation: first-print misses March to September without May (yearly revision), 2.20% x $108.0B = $2.4B, widened modestly for six months"
     },
     "SKEW": {
-      "value": -1.02,
-      "note": "skewness of the last 24 months of misses"
+      "value": 0.3,
+      "note": "skewness: judgment, slightly to the upside"
     },
     "KURT": {
-      "value": 5.28,
-      "note": "kurtosis of the last 24 months of misses"
+      "value": 4.0,
+      "note": "kurtosis: judgment, slightly fatter tails than normal"
     }
-  },
-  "shape_window": {
-    "series": "census_now",
-    "months": 24,
-    "note": "base case for standard deviation, skewness and kurtosis: the base rate's misses on Census's current figures over the last 24 months, standard deviation scaled to the October base rate"
   }
 }

@@ -99,7 +99,7 @@
     <p class="muted hint">Pick a strike. Dashed: the starting values.</p>
 
     <h2>Shape of the base rate's misses</h2>
-    <p class="measure">Misses as a share of the projection. The base case sets standard deviation, skewness and kurtosis from the last 24 months of Census's current figures; adjustments move the inputs from there.<sup class="fn"><a href="#s2">2</a></sup><sup class="fn"><a href="#s5">5</a></sup></p>
+    <p class="measure">Misses as a share of the projection. The standard deviation comes from the first prints without May; adjustments move the inputs from there.<sup class="fn"><a href="#s2">2</a></sup><sup class="fn"><a href="#s5">5</a></sup></p>
     <div class="scroll"><table class="eff" id="shape"></table></div>
 
     <h2>How each input moves the distribution</h2>
@@ -130,8 +130,8 @@
           <dt>Adjustment for the current state</dt>
           <dd>Not yet set. I rely most heavily on the base rate, and the marginal adjustment should be exactly that, marginal. The signals on the <a href="../projects/">Projects</a> page are better suited to flag a major regime change: a major reversal, or a big acceleration given large news or massive outlook changes.</dd>
           <dt>Standard deviation, skewness and kurtosis</dt>
-          <dd>Base case: the shape of the base rate's misses on Census's current figures over the last 24 months, in the table above. Seven first prints are too few to measure skewness and kurtosis. Earlier years are left out: the series was small and its misses, in percent, far larger.
-</dd>
+          <dd>Standard deviation: the base rate's first-print misses, March to September without May (the yearly revision), are 2.2%, or $2.4B at October's level. Widened modestly to $3.0B, since six months is few. Census's revised figures miss far more, but mostly from revisions that can't occur in a first print.</dd>
+          <dd>Skewness and kurtosis: too few months to measure, so set by judgment. Slightly to the upside, given the aggressive, rapid build-out and the lack of negative news to the contrary. Slightly fatter tails than normal.</dd>
         </dl>
       </details>
       <details class="en-q">
@@ -201,6 +201,6 @@
 <script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
 <script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
 <script src="model.js?v=dc4"></script>
-<script src="page.js?v=dc6"></script>
+<script src="page.js?v=dc7"></script>
 </body>
 </html>

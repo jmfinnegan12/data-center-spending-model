@@ -179,9 +179,9 @@ Promise.all([
     const first = window.ForecastModel.misses(run.map((d) => ({ month: d.month, value: d.value })));
     const W = [
       { name: 'First prints, last 7 months', x: first.map((d) => d.miss) },
-      { name: 'First prints, without May (yearly revision)', x: first.filter((d) => !d.month.endsWith('-05')).map((d) => d.miss) },
+      { name: 'First prints, without May (yearly revision)', x: first.filter((d) => !d.month.endsWith('-05')).map((d) => d.miss), base: true },
       { name: 'Current figures, last 12 months', x: revised.slice(-12) },
-      { name: 'Current figures, last 24 months', x: revised.slice(-24), base: true },
+      { name: 'Current figures, last 24 months', x: revised.slice(-24) },
       { name: 'Current figures, last 36 months', x: revised.slice(-36) },
       { name: 'Current figures, last 60 months', x: revised.slice(-60) },
     ];

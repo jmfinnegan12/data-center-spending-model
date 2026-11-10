@@ -133,6 +133,4 @@ def shape_base(months=24):
 
 
 if __name__ == "__main__":
-    b = shape_base()
-    print(f"Base case shape, last 24 months of misses: standard deviation {b['sd'] * 100:.2f}%, skewness {b['skew']:.2f}, kurtosis {b['kurt']:.2f}\n")
     main()
