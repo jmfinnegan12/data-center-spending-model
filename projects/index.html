@@ -26,6 +26,7 @@
   table.t th.d { text-align: center; }
   .up { color: var(--s1); } .down { color: var(--s2); } .mix { color: var(--ink-soft); }
   #projects { min-width: 2300px; }
+  #investors { min-width: 1300px; }
   #projects td:nth-child(1), #projects td:nth-child(2) { min-width: 130px; }
   #projects td:nth-child(3), #projects td:nth-child(4), #projects td:nth-child(5), #projects td:nth-child(6) { min-width: 200px; }
   #projects td:nth-child(14), #projects td:nth-child(15) { min-width: 280px; }
@@ -62,6 +63,10 @@
     </div>
     <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Confirmed: stated by the owner, builder, customer or a government record. Estimated: a third party.</p>
     <p><a href="table/">Project table →</a></p>
+
+    <h2>End users' spending plans</h2>
+    <p class="measure">The companies that will use the capacity drive the investment. Each states its capital spending each quarter; it covers chips and servers as well as buildings.</p>
+    <div class="scroll"><table class="t" id="investors"></table></div>
 
     <h2>Signals before each release</h2>
     <p class="measure">Contractor and supplier results, company comments, project news and policy, each counted against the first release it came before. Up: faster than the base rate.</p>
@@ -107,9 +112,23 @@ Promise.all([
   fetch('../data/projects.json', { cache: 'no-cache' }).then((r) => r.json()),
   d3.csv('../data/signals.csv'),
   d3.csv('../data/first_prints.csv'),
-]).then(([projects, signals, fp]) => {
+  fetch('../data/investors.json', { cache: 'no-cache' }).then((r) => r.json()),
+]).then(([projects, signals, fp, investors]) => {
   const { esc, dcls, dtxt, DIR, STRENGTH, QUALITY, sortable } = EVP;
   EVP.chart(projects);
+
+  // ---------- end users ----------
+  const lc = (v) => (v || '').toLowerCase() || null;
+  sortable(document.getElementById('investors'), [
+    { label: 'Company', key: (r) => lc(r.company), html: (r) => esc(r.company) },
+    { label: 'Latest figure', key: (r) => lc(r.latest_figure), html: (r) => `<a href="${esc(r.source)}">${esc(r.latest_figure)}</a>` },
+    { label: 'Period', key: (r) => lc(r.period), html: (r) => esc(r.period) },
+    { label: 'Stated', desc: true, key: (r) => r.date, html: (r) => `<span style="white-space:nowrap">${esc(r.date)}</span>` },
+    { label: 'Change', key: (r) => lc(r.change), html: (r) => esc(r.change) },
+    { label: 'Buildings vs chips', key: (r) => lc(r.infrastructure_share), html: (r) => esc(r.infrastructure_share || '–') },
+    { label: 'Delays named', key: (r) => lc(r.delay_note), html: (r) => esc(r.delay_note || '–') },
+    { label: 'Next update', key: (r) => lc(r.next_update), html: (r) => esc(r.next_update) },
+  ], investors, [3, -1]);
 
   // ---------- look-back ----------
   const run = fp.filter((r) => r.first_print).map((r) => ({ m: r.reference_month, v: +r.first_print / 1000 }));

@@ -113,5 +113,26 @@ def main():
         print(f"  {fp[i][0]}  projected {proj:6.2f}  actual {fp[i][1]:6.2f}  miss {fp[i][1] - proj:+6.2f}")
 
 
+def moments(x):
+    """Mean, sample standard deviation, skewness and kurtosis (moment estimators), as in model.js."""
+    n = len(x)
+    m = sum(x) / n
+    d = [v - m for v in x]
+    m2 = sum(v * v for v in d) / n
+    m3 = sum(v ** 3 for v in d) / n
+    m4 = sum(v ** 4 for v in d) / n
+    return {"n": n, "mean": m, "sd": math.sqrt(m2 * n / (n - 1)), "skew": m3 / m2 ** 1.5, "kurt": m4 / m2 ** 2}
+
+
+def shape_base(months=24):
+    """The base case shape: the base rate's misses, as a share of the projection, on Census's current figures."""
+    rows = list(csv.reader(open(ROOT / "data" / "census_now.csv")))[1:]
+    v = [float(r[1]) for r in rows]
+    miss = [(v[i] - (2 * v[i - 1] - v[i - 2])) / (2 * v[i - 1] - v[i - 2]) for i in range(2, len(v))]
+    return moments(miss[-months:])
+
+
 if __name__ == "__main__":
+    b = shape_base()
+    print(f"Base case shape, last 24 months of misses: standard deviation {b['sd'] * 100:.2f}%, skewness {b['skew']:.2f}, kurtosis {b['kurt']:.2f}\n")
     main()

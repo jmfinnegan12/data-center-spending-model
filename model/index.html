@@ -26,6 +26,9 @@
   table.eff th, table.eff td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   table.eff th { color: var(--ink-faint); font-weight: 600; }
   table.eff td:first-child { font-weight: 600; }
+  table.eff .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.eff tr.base td { color: var(--ink); background: var(--band); }
+  .scroll { overflow-x: auto; }
   @media (max-width: 640px) { table.eff { font-size: 13.5px; } }
   #ladder .bar:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
 
@@ -95,6 +98,10 @@
     <div class="en-chart" id="ladder"></div>
     <p class="muted hint">Pick a strike. Dashed: the starting values.</p>
 
+    <h2>Shape of the base rate's misses</h2>
+    <p class="measure">Misses as a share of the projection. The base case sets standard deviation, skewness and kurtosis from the last 24 months of Census's current figures; adjustments move the inputs from there.<sup class="fn"><a href="#s2">2</a></sup><sup class="fn"><a href="#s5">5</a></sup></p>
+    <div class="scroll"><table class="eff" id="shape"></table></div>
+
     <h2>How each input moves the distribution</h2>
     <table class="eff">
       <thead><tr><th>Input</th><th>Mean</th><th>Standard deviation</th><th>Skewness</th><th>Kurtosis</th></tr></thead>
@@ -122,10 +129,9 @@
           <dd>The base rate is the prior month adjusted by the rate of change. Five ways of computing it were tested month by month against first prints; the last month's change missed least and had the smallest worst miss, so it is the one used. Adding the change in the change made the misses larger.</dd>
           <dt>Adjustment for the current state</dt>
           <dd>Not yet set. I rely most heavily on the base rate, and the marginal adjustment should be exactly that, marginal. The signals on the <a href="../projects/">Projects</a> page are better suited to flag a major regime change: a major reversal, or a big acceleration given large news or massive outlook changes.</dd>
-          <dt>Standard deviation</dt>
-          <dd>A placeholder, not yet chosen. The standard deviation of the base rate's misses is $2.5B on first prints from March to September without May, $4.4B on Census's current figures over the last 12 months, and $7.2B over the last 24.<sup class="fn"><a href="#s2">2</a></sup></dd>
-          <dt>Skewness and kurtosis</dt>
-          <dd>Not yet set: 0 and 3, the normal distribution.</dd>
+          <dt>Standard deviation, skewness and kurtosis</dt>
+          <dd>Base case: the shape of the base rate's misses on Census's current figures over the last 24 months, in the table above. Seven first prints are too few to measure skewness and kurtosis. Earlier years are left out: the series was small and its misses, in percent, far larger.
+</dd>
         </dl>
       </details>
       <details class="en-q">
@@ -194,7 +200,7 @@
 
 <script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
 <script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
-<script src="model.js?v=dc3"></script>
-<script src="page.js?v=dc5"></script>
+<script src="model.js?v=dc4"></script>
+<script src="page.js?v=dc6"></script>
 </body>
 </html>

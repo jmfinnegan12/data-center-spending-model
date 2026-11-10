@@ -26,16 +26,21 @@
       "note": "adjustment for the current state; not yet set"
     },
     "SPREAD": {
-      "value": 4.4,
-      "note": "standard deviation of the outcome; placeholder, not yet chosen"
+      "value": 6.69,
+      "note": "standard deviation: 6.19% (last 24 months of misses) x $108.0B"
     },
     "SKEW": {
-      "value": 0.0,
-      "note": "skewness of the outcome; 0 is symmetric"
+      "value": -1.02,
+      "note": "skewness of the last 24 months of misses"
     },
     "KURT": {
-      "value": 3.0,
-      "note": "kurtosis of the outcome; 3 is the normal distribution"
+      "value": 5.28,
+      "note": "kurtosis of the last 24 months of misses"
     }
+  },
+  "shape_window": {
+    "series": "census_now",
+    "months": 24,
+    "note": "base case for standard deviation, skewness and kurtosis: the base rate's misses on Census's current figures over the last 24 months, standard deviation scaled to the October base rate"
   }
 }

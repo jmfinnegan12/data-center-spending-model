@@ -99,5 +99,24 @@
     return out;
   }
 
-  window.ForecastModel = { fromConfig, backtest, shape, solve };
+  // The base rate's misses as a share of its projection, month by month: series [{ month, value }].
+  function misses(series) {
+    const out = [];
+    for (let i = 2; i < series.length; i++) {
+      const p = 2 * series[i - 1].value - series[i - 2].value;
+      out.push({ month: series[i].month, miss: (series[i].value - p) / p });
+    }
+    return out;
+  }
+  // mean, sample standard deviation, skewness and kurtosis (moment estimators)
+  function moments(x) {
+    const n = x.length, m = x.reduce((a, b) => a + b, 0) / n;
+    const d = x.map((v) => v - m);
+    const m2 = d.reduce((a, v) => a + v * v, 0) / n;
+    const m3 = d.reduce((a, v) => a + v ** 3, 0) / n;
+    const m4 = d.reduce((a, v) => a + v ** 4, 0) / n;
+    return { n, mean: m, sd: Math.sqrt(m2 * n / (n - 1)), skew: m3 / m2 ** 1.5, kurt: m4 / (m2 * m2) };
+  }
+
+  window.ForecastModel = { fromConfig, backtest, shape, solve, misses, moments };
 })();

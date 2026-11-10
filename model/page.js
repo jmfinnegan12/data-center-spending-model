@@ -172,6 +172,29 @@ Promise.all([
     INPUTS.forEach((inp) => fields[inp.key].box.input.classList.toggle('changed', Math.abs(p[inp.key] - M.DEFAULTS[inp.key]) > 1e-9));
     paint();
   }
+  // ---------- the shape of the base rate's misses ----------
+  {
+    const nowSeries = nowRows.map((r) => ({ month: r.reference_month, value: +r[valueCol] }));
+    const revised = window.ForecastModel.misses(nowSeries).map((d) => d.miss);
+    const first = window.ForecastModel.misses(run.map((d) => ({ month: d.month, value: d.value })));
+    const W = [
+      { name: 'First prints, last 7 months', x: first.map((d) => d.miss) },
+      { name: 'First prints, without May (yearly revision)', x: first.filter((d) => !d.month.endsWith('-05')).map((d) => d.miss) },
+      { name: 'Current figures, last 12 months', x: revised.slice(-12) },
+      { name: 'Current figures, last 24 months', x: revised.slice(-24), base: true },
+      { name: 'Current figures, last 36 months', x: revised.slice(-36) },
+      { name: 'Current figures, last 60 months', x: revised.slice(-60) },
+    ];
+    const base = M.baseRate(M.DEFAULTS);
+    const sgn2 = (v) => (v < 0 ? '−' : '+') + Math.abs(v).toFixed(2);
+    document.getElementById('shape').innerHTML = '<thead><tr><th>Misses</th><th class="n">Months</th><th class="n">Mean</th><th class="n">Standard deviation</th><th class="n">At October\'s level</th><th class="n">Skewness</th><th class="n">Kurtosis</th></tr></thead><tbody>' +
+      W.map((w) => {
+        const mo = window.ForecastModel.moments(w.x);
+        return `<tr${w.base ? ' class="base"' : ''}><td>${w.name}${w.base ? ' · base case' : ''}</td><td class="n">${mo.n}</td><td class="n">${sgn2(mo.mean * 100)}%</td><td class="n">${(mo.sd * 100).toFixed(2)}%</td>` +
+          `<td class="n">${b1(mo.sd * base)}</td><td class="n">${sgn2(mo.skew)}</td><td class="n">${mo.kurt.toFixed(2)}</td></tr>`;
+      }).join('') + '</tbody>';
+  }
+
   changed();
 }).catch((e) => {
   document.getElementById('series').insertAdjacentHTML('afterbegin', '<p class="muted">The model could not be loaded. Reload the page.</p>');
