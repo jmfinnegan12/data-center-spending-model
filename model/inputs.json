@@ -22,8 +22,8 @@
       "note": "change carried forward from September; default is the last first-print change (September first print minus August first print)"
     },
     "ADJUST": {
-      "value": 0.0,
-      "note": "adjustment for the current state; not yet set"
+      "value": -1.5,
+      "note": "adjustment for the current state: Jim's -$1B to -$2B for the Dodge index's October decline and Microsoft's pullback; midpoint"
     },
     "SPREAD": {
       "value": 3.0,
