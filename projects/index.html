@@ -27,7 +27,7 @@
   .up { color: var(--s1); } .down { color: var(--s2); } .mix { color: var(--ink-soft); }
   #projects { min-width: 1500px; }
   #projects td:nth-child(1), #projects td:nth-child(2), #projects td:nth-child(3) { min-width: 130px; }
-  #projects td:nth-child(11) { min-width: 300px; }
+  #projects td:nth-child(11), #projects td:nth-child(12) { min-width: 280px; }
   @media (max-width: 640px) { table.t { font-size: 13px; } }
 </style>
 </head>
@@ -59,7 +59,7 @@
       <span><i style="background:var(--s2)"></i>Estimated</span>
       <span><i style="background:var(--ink-soft);opacity:.35"></i>Range</span>
     </div>
-    <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Confirmed: stated by the owner, builder, tenant or a government record. Estimated: a third party.</p>
+    <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Confirmed: stated by the owner, builder, tenant or a government record. Estimated: a third party. Census counts buildings, power and cooling, not chips and servers, so an investment figure that includes them overstates construction. Latest news: ↑ expanding or ahead, ↓ cut or delayed, ↕ mixed.</p>
     <div class="scroll"><table class="t" id="projects"></table></div>
 
     <h2>Signals before each release</h2>
@@ -69,14 +69,24 @@
     <p class="measure">I think these signals are better suited to serve as major regime change signals: a major reversal, or a big acceleration given large news or massive outlook changes. They are less useful for marginal adjustments. I rely most heavily on the base rate, and the marginal adjustment should be exactly that, marginal.</p>
 
     <h2>Signals for October</h2>
-    <p class="muted">Strength and source quality are subjective.</p>
+    <p class="measure">The Dodge index's October decline and Microsoft's pullback are the only relevant down signals; each adds marginal downward pressure.</p>
     <div class="scroll"><table class="t" id="latest"></table></div>
+    <p class="muted">Strength and source quality are subjective.</p>
+
+    <h2>To watch</h2>
+    <ul class="measure">
+      <li>ConstructConnect's monthly data center report: a repeat source that could give leading information on a regular basis.<sup class="fn"><a href="#s4">4</a></sup></li>
+      <li>Data center construction costs per square foot are rising.<sup class="fn"><a href="#s4">4</a></sup></li>
+      <li>So little has happened in the Rocky Mountain West, which probably has the most available empty space for these projects, with lots of federal land. It could be a frontier for the next step up in new project starts.<sup class="fn"><a href="#s4">4</a></sup></li>
+      <li>Is this the complete list? Are projects missing that belong on it, or are some on it that don't? Checked at every update.</li>
+    </ul>
 
     <h2 id="sources">Sources</h2>
     <ol class="sources">
       <li id="s1"><a href="https://www.cushmanwakefield.com/en/insights/americas-data-center-update">Cushman &amp; Wakefield. Americas Data Center Update, H1 2026.</a></li>
       <li id="s2"><a href="https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers.html">JLL. North America Data Center Report, midyear 2026.</a></li>
       <li id="s3"><a href="https://www.woodmac.com/press-releases/us-data-centre-additions-return-to-growth-in-q2-2026-as-developers-push-construction-and-pipeline-continues-to-expand2/">Wood Mackenzie. US data centre additions, Q2 2026. 2026-10-28.</a></li>
+      <li id="s4"><a href="https://news.constructconnect.com/november-2026-data-center-report-september-adds-9.4b-in-construction-starts-costs-continue-to-increase">ConstructConnect. "November 2026 Data Center Report: September adds $9.4B in construction starts, costs continue to increase." 2026-10-30.</a></li>
     </ol>
     <p class="muted">Each project and signal links to its own source. Data: <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/projects.json">projects</a>, <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/signals.csv">signals</a>.</p>
 
@@ -166,11 +176,11 @@ Promise.all([
     { label: 'Investment', cls: 'n', desc: true, key: (p) => p.investment_usd_b_high,
       html: (p) => link(p.investment_source, range(p.investment_usd_b_low, p.investment_usd_b_high, usd), p.investment_note) },
     { label: 'Investment basis', desc: true, key: (p) => BASIS[p.investment_basis], html: (p) => basis(p.investment_basis) },
-    { label: 'Includes servers', key: (p) => (p.investment_includes_it == null ? null : p.investment_includes_it ? 1 : 0),
+    { label: 'Investment includes chips and servers', key: (p) => (p.investment_includes_it == null ? null : p.investment_includes_it ? 1 : 0),
       html: (p) => (p.investment_includes_it == null ? (p.investment_usd_b_high == null ? '–' : 'Unclear') : p.investment_includes_it ? 'Yes' : 'No') },
     { label: 'Started', key: (p) => p.construction_start, html: (p) => esc(p.construction_start || '–') },
     { label: 'Status', key: (p) => p.status.toLowerCase(), html: (p) => esc(p.status) },
-    { label: 'Signal', cls: 'd', desc: true, key: (p) => DIR[p.direction], html: (p) => `<span class="${dcls(p.direction)}" title="${esc(p.latest_signal)}">${dtxt(p.direction)}</span>` },
+    { label: 'Latest news', desc: true, key: (p) => DIR[p.direction], html: (p) => `<span class="${dcls(p.direction)}" style="font-weight:700">${dtxt(p.direction)}</span> ${esc(p.latest_signal)}` },
   ], projects, [3, -1]);
 
   // ---------- look-back ----------
@@ -192,12 +202,18 @@ Promise.all([
     { label: 'Same direction', key: (r) => (r.same ? 1 : 0), html: (r) => (r.same ? 'Yes' : 'No') },
   ], back, [0, 1]);
 
-  // ---------- latest signals: Q3 results season onward ----------
-  const recent = signals.filter((s) => s.signal_date >= '2026-10-15');
+  // ---------- latest signals for October ----------
+  // End users' spending and the industry's own construction data. Contractor and supplier results are left out.
+  const KEEP = {
+    Microsoft: ['End user', 'Quarterly'], Amazon: ['End user', 'Quarterly'], Alphabet: ['End user', 'Quarterly'], Meta: ['End user', 'Quarterly'],
+    'Dodge Momentum Index': ['Industry data', 'Monthly'], ConstructConnect: ['Industry data', 'Monthly'], 'Wood Mackenzie': ['Industry data', 'Quarterly'],
+  };
+  const recent = signals.filter((s) => s.signal_date >= '2026-10-15' && KEEP[s.company_or_project]);
   sortable(document.getElementById('latest'), [
     { label: 'Date', desc: true, key: (s) => s.signal_date, html: (s) => `<span style="white-space:nowrap">${esc(s.signal_date)}</span>` },
     { label: 'Who', key: (s) => s.company_or_project.toLowerCase(), html: (s) => esc(s.company_or_project) },
-    { label: 'Type', key: (s) => s.source_type, html: (s) => esc(s.source_type) },
+    { label: 'Type', key: (s) => KEEP[s.company_or_project][0], html: (s) => KEEP[s.company_or_project][0] },
+    { label: 'How often', key: (s) => KEEP[s.company_or_project][1], html: (s) => KEEP[s.company_or_project][1] },
     { label: 'What', key: (s) => s.what.toLowerCase(), html: (s) => `<a href="${esc(s.url)}">${esc(s.what)}</a>` },
     { label: 'Direction', cls: 'd', desc: true, key: (s) => DIR[s.direction], html: (s) => `<span class="${dcls(s.direction)}">${dtxt(s.direction)}</span>` },
     { label: 'Strength', desc: true, key: (s) => STRENGTH[s.strength], html: (s) => esc(s.strength) },
