@@ -20,6 +20,13 @@
   .key i.range { height: 10px; background: var(--s2); opacity: .28; }
   .key i.proj { border-top: 2px dashed var(--s2); }
   #ladder .bar { cursor: pointer; }
+  .moments { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 15.5px; color: var(--ink-soft); margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+  .moments b { color: var(--ink); font-weight: 650; }
+  table.eff { border-collapse: collapse; width: 100%; font-size: 15.5px; margin: 12px 0 14px; }
+  table.eff th, table.eff td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.eff th { color: var(--ink-faint); font-weight: 600; }
+  table.eff td:first-child { font-weight: 600; }
+  @media (max-width: 640px) { table.eff { font-size: 13.5px; } }
   #ladder .bar:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
 
   .inputs-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 48px 0 6px; }
@@ -83,9 +90,28 @@
 
     <h2>The forecast</h2>
     <p class="sum" id="say" aria-live="polite"></p>
+    <p class="moments" id="moments"></p>
     <div class="en-chart" id="dist"></div>
     <div class="en-chart" id="ladder"></div>
-    <p class="muted hint">Pick a strike to shade the chance above it.</p>
+    <p class="muted hint">Pick a strike to shade the chance above it. Once an input is changed, the dashed curve is the forecast at its starting values.</p>
+
+    <h2>How each input moves the distribution</h2>
+    <table class="eff">
+      <thead><tr><th>Input</th><th>Mean</th><th>Standard deviation</th><th>Skewness</th><th>Kurtosis</th></tr></thead>
+      <tbody>
+        <tr><td>Change carried forward</td><td>Moves it, dollar for dollar</td><td>No effect</td><td>No effect</td><td>No effect</td></tr>
+        <tr><td>Adjustment for the current state</td><td>Moves it, dollar for dollar</td><td>No effect</td><td>No effect</td><td>No effect</td></tr>
+        <tr><td>Size of a typical miss</td><td>No effect</td><td>Sets it</td><td>No effect</td><td>No effect</td></tr>
+        <tr><td>Lean</td><td>Held</td><td>Held</td><td>Sets it</td><td>Raises it a little</td></tr>
+        <tr><td>Tail weight</td><td>Held</td><td>Held</td><td>No effect</td><td>Sets it</td></tr>
+      </tbody>
+    </table>
+    <ul class="measure">
+      <li><strong>Mean:</strong> where the distribution sits. The change carried forward and the adjustment do the same thing to it; they are kept apart because one is the base rate and the other is the judgment added to it.</li>
+      <li><strong>Standard deviation:</strong> how wide it is.</li>
+      <li><strong>Skewness:</strong> which side has the long tail. Leaning up keeps the mean where it is but puts a small chance of a big upside surprise against a larger chance of a modest shortfall.</li>
+      <li><strong>Kurtosis:</strong> how much of the chance sits in the tails rather than the shoulders. More of it means outcomes are either close to the mean or far from it.</li>
+    </ul>
 
     <div class="inputs-head">
       <h2>Inputs</h2>
@@ -104,12 +130,14 @@
           <dd>Not yet set.</dd>
           <dt>Size of a typical miss</dt>
           <dd>A placeholder, not yet chosen. Measured as one standard deviation of the base rate's misses, it is $2.5B on first prints from March to September without May, $4.4B on Census's current figures over the last 12 months, and $7.2B over the last 24.<sup class="fn"><a href="#s2">2</a></sup></dd>
+          <dt>Lean and tail weight</dt>
+          <dd>Not yet set. They start at a symmetric bell curve.</dd>
         </dl>
       </details>
       <details class="en-q">
         <summary>Assumptions</summary>
         <ul>
-          <li>Misses are spread like a bell curve around the centre: as likely above as below.</li>
+          <li>Misses follow a sinh-arcsinh distribution, a bell curve that can be bent to one side and given heavier or lighter tails while its mean and standard deviation stay fixed.<sup class="fn"><a href="#s7">7</a></sup></li>
           <li>October follows the same rule as the months before it.</li>
           <li>The December 1 release carries no yearly revision. Census makes that each July.<sup class="fn"><a href="#s6">6</a></sup></li>
         </ul>
@@ -158,6 +186,7 @@
       <li id="s4"><a href="https://kalshi.com/markets/kxdatacentcon">Kalshi. KXDATACENTCON market rules</a> and <a href="https://assets.kalshi.com/contract_terms/ECONSTAT.pdf">ECONSTAT contract terms</a>.</li>
       <li id="s5"><a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/first_prints.csv">First published figures, from Internet Archive copies of the Census files</a>, each with its link.</li>
       <li id="s6"><a href="https://www.census.gov/construction/c30/pdf/annualrevisions.pdf">US Census Bureau. Analysis of revisions to monthly estimates.</a></li>
+      <li id="s7"><a href="https://doi.org/10.1093/biomet/asp053">Jones, M. C. and Pewsey, A. "Sinh-arcsinh distributions." Biometrika 96(4), 2009.</a></li>
     </ol>
 
     <p class="muted" style="margin-top:28px">Last updated 2026-11-10 · <a href="https://github.com/jmfinnegan12/data-center-spending-model/commits/main/model/index.html">history</a></p>
@@ -171,7 +200,7 @@
 
 <script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
 <script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
-<script src="model.js?v=dc1"></script>
-<script src="page.js?v=dc3"></script>
+<script src="model.js?v=dc2"></script>
+<script src="page.js?v=dc4"></script>
 </body>
 </html>

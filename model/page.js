@@ -23,7 +23,6 @@ Promise.all([
   const M = window.ForecastModel.fromConfig(cfg, run);
   const tests = window.ForecastModel.backtest(run).map((d) => ({ ...d, t: parseMonth(d.month) }));
   const target = parseMonth(M.MONTH);
-  const Z90 = 1.2815516; // 10% to 90% of a bell curve: centre ± 1.28 standard deviations
 
   // ---------- inputs ----------
   const INPUTS = [
@@ -31,7 +30,11 @@ Promise.all([
       note: `Added to September's first print. The last change, first print to first print, was ${b1(M.lastChange)}.` },
     { key: 'ADJUST', label: 'Adjustment for the current state', min: -30, max: 30, sliderMin: -15, sliderMax: 15, step: 0.1 },
     { key: 'SPREAD', label: 'Size of a typical miss', min: 0.2, max: 20, sliderMin: 0.5, sliderMax: 12, step: 0.1,
-      note: 'One standard deviation. About two thirds of outcomes land within this distance of the centre.' },
+      note: 'One standard deviation. With no lean and tail weight 1, about two thirds of outcomes land within this distance of the mean.' },
+    { key: 'LEAN', label: 'Lean', min: -1.5, max: 1.5, step: 0.05, unit: '',
+      note: 'Skewness. 0 is symmetric. Above 0 stretches the tail above the mean and shifts the bulk of outcomes below it; below 0 the reverse. Mean and standard deviation stay as set.' },
+    { key: 'TAILS', label: 'Tail weight', min: 0.5, max: 2.5, step: 0.05, unit: '',
+      note: 'Kurtosis. 1 is the bell curve. Above 1 makes big misses either way more likely and the middle narrower; below 1 the reverse. Mean and standard deviation stay as set.' },
   ];
   const clone = (o) => JSON.parse(JSON.stringify(o));
   let p = clone(M.DEFAULTS);
@@ -47,7 +50,7 @@ Promise.all([
     name.className = 'name';
     name.textContent = inp.label;
     row.appendChild(name);
-    const f = EN.sliderField({ value: p[inp.key], min: inp.min, max: inp.max, sliderMin: inp.sliderMin, sliderMax: inp.sliderMax, step: inp.step, unit: '$B', label: inp.label,
+    const f = EN.sliderField({ value: p[inp.key], min: inp.min, max: inp.max, sliderMin: inp.sliderMin, sliderMax: inp.sliderMax, step: inp.step, unit: inp.unit === undefined ? '$B' : inp.unit, label: inp.label,
       onChange: (v) => { p[inp.key] = v; changed(); } });
     row.appendChild(f.range);
     row.appendChild(f.box.el);
@@ -62,7 +65,7 @@ Promise.all([
   const series = EN.chart.frame(document.getElementById('series'), (w) => Math.max(260, Math.min(400, w * 0.5)), ({ svg, width, height }) => {
     svg.selectAll('*').remove();
     const m = { t: 20, r: 70, b: 30, l: 46 };
-    const c = M.centre(p), lo = c - Z90 * p.SPREAD, hi = c + Z90 * p.SPREAD;
+    const c = M.centre(p), lo = M.quantile(0.1, p), hi = M.quantile(0.9, p);
     const start = d3.utcMonth.offset(target, -13);
     const shown = now.filter((d) => d.t >= start);
     const firsts = allFirst.filter((d) => d.t >= start);
@@ -111,15 +114,18 @@ Promise.all([
     svg.selectAll('*').remove();
     const m = { t: 26, r: 14, b: 30, l: 46 };
     const c = M.centre(p);
-    const xmin = Math.min(M.STRIKES[0] - 2.5, c - 3.5 * p.SPREAD), xmax = Math.max(M.STRIKES[M.STRIKES.length - 1] + 2.5, c + 3.5 * p.SPREAD);
+    const xmin = Math.min(M.STRIKES[0] - 2.5, M.quantile(0.002, p)), xmax = Math.max(M.STRIKES[M.STRIKES.length - 1] + 2.5, M.quantile(0.998, p));
     const x = d3.scaleLinear([xmin, xmax], [m.l, width - m.r]);
     const pts = d3.range(xmin, xmax + 0.001, (xmax - xmin) / 300).map((v) => [v, M.density(v, p)]);
-    const y = d3.scaleLinear([0, d3.max(pts, (d) => d[1]) * 1.12], [height - m.b, m.t]);
+    const base = M.DEFAULTS;
+    const ghost = INPUTS.some((inp) => Math.abs(p[inp.key] - base[inp.key]) > 1e-9) ? d3.range(xmin, xmax + 0.001, (xmax - xmin) / 300).map((v) => [v, M.density(v, base)]) : null;
+    const y = d3.scaleLinear([0, Math.max(d3.max(pts, (d) => d[1]), ghost ? d3.max(ghost, (d) => d[1]) : 0) * 1.12], [height - m.b, m.t]);
     svg.attr('aria-label', `Spread of outcomes for October's first print, centred on ${b1(c)}. Chance above ${b1(strike)}: ${pc(M.above(strike, p))}.`);
     svg.append('g').attr('class', 'axis').attr('transform', `translate(0,${height - m.b})`).call(d3.axisBottom(x).ticks(width < 520 ? 5 : 9).tickSize(5).tickPadding(6).tickFormat((v) => `$${v}B`));
     const area = d3.area().x((d) => x(d[0])).y0(y(0)).y1((d) => y(d[1]));
     svg.append('path').attr('fill', 'var(--band)').attr('d', area(pts));
     svg.append('path').attr('fill', 'var(--s2)').attr('fill-opacity', 0.35).attr('d', area(pts.filter((d) => d[0] >= strike)));
+    if (ghost) svg.append('path').attr('fill', 'none').attr('stroke', 'var(--ink-faint)').attr('stroke-width', 1.5).attr('stroke-dasharray', '4 4').attr('d', d3.line().x((d) => x(d[0])).y((d) => y(d[1]))(ghost));
     svg.append('path').attr('fill', 'none').attr('stroke', 'var(--ink)').attr('stroke-width', 2).attr('d', d3.line().x((d) => x(d[0])).y((d) => y(d[1]))(pts));
     svg.append('g').selectAll('line').data(M.STRIKES).join('line').attr('x1', (s) => x(s)).attr('x2', (s) => x(s)).attr('y1', y(0)).attr('y2', m.t)
       .attr('stroke', (s) => (s === strike ? 'var(--s2)' : 'var(--line)')).attr('stroke-width', (s) => (s === strike ? 2 : 1));
@@ -157,7 +163,11 @@ Promise.all([
     document.getElementById('base').innerHTML = `September ${b1(M.LAST.value)} + change ${b1(p.CHANGE)} = base rate <b>${b1(M.baseRate(p))}</b>` +
       (p.ADJUST ? `, adjusted ${sgn(p.ADJUST)} to <b>${b1(c)}</b>` : '');
     document.getElementById('say').innerHTML = `The chance October's first print is above <b>${b1(strike)}</b> is <b>${pc(M.above(strike, p))}</b>. ` +
-      `The middle 80% of outcomes runs from ${b1(c - Z90 * p.SPREAD)} to ${b1(c + Z90 * p.SPREAD)}.`;
+      `The middle 80% of outcomes runs from ${b1(M.quantile(0.1, p))} to ${b1(M.quantile(0.9, p))}.`;
+    const mo = M.moments(p);
+    const f2 = (v) => (Math.abs(v) < 0.005 ? '0.00' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(2));
+    document.getElementById('moments').innerHTML = `<span>Mean <b>${b1(mo.mean)}</b></span><span>Standard deviation <b>${b1(mo.sd)}</b></span>` +
+      `<span>Skewness <b>${f2(mo.skew)}</b></span><span>Excess kurtosis <b>${f2(mo.exkurt)}</b></span>`;
     series.redraw(); dist.redraw(); ladder.redraw();
   }
   function changed() {

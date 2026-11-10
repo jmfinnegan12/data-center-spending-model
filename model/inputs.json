@@ -3,10 +3,39 @@
   "as_of": "2026-11-10",
   "month": "2026-10",
   "release": "2026-12-01 10:00 ET",
-  "strikes": [90.0, 92.5, 95.0, 97.5, 100.0, 102.5, 105.0, 107.5, 110.0, 112.5, 115.0],
+  "strikes": [
+    90.0,
+    92.5,
+    95.0,
+    97.5,
+    100.0,
+    102.5,
+    105.0,
+    107.5,
+    110.0,
+    112.5,
+    115.0
+  ],
   "inputs": {
-    "CHANGE": {"value": 11.512, "note": "change carried forward from September; default is the last first-print change (September first print minus August first print)"},
-    "ADJUST": {"value": 0.0, "note": "adjustment for the current state; not yet set"},
-    "SPREAD": {"value": 4.4, "note": "one standard deviation of the miss; placeholder, not yet chosen"}
+    "CHANGE": {
+      "value": 11.512,
+      "note": "change carried forward from September; default is the last first-print change (September first print minus August first print)"
+    },
+    "ADJUST": {
+      "value": 0.0,
+      "note": "adjustment for the current state; not yet set"
+    },
+    "SPREAD": {
+      "value": 4.4,
+      "note": "one standard deviation of the miss; placeholder, not yet chosen"
+    },
+    "LEAN": {
+      "value": 0.0,
+      "note": "skewness: 0 is symmetric; positive puts a longer tail above, negative below"
+    },
+    "TAILS": {
+      "value": 1.0,
+      "note": "tail weight: 1 is the bell curve; above 1 fattens both tails, below 1 thins them"
+    }
   }
 }
