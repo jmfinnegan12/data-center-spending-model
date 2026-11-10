@@ -7,6 +7,8 @@ A model from [Event Neutral](https://eventneutral.com): how much will the Census
 - `model/inputs.json`: the forecast's inputs, read by both the Python and the pages. Edit inputs here only.
 - `data/first_prints.csv`: each month's first published figure, with the Internet Archive copy of the Census file it came from. `data/census_now.csv`: the whole series as Census shows it now.
 - `code/strike_probabilities.py`: the same model as a short script. Run it to print the base rate, the chance above each strike and the backtest.
+- `projects/`: the Projects page; `projects/table/`: the full project table. `data/projects.json` and `data/signals.csv` feed both.
+- **Each update:** check the project list. Are large projects missing, or are some listed that don't belong (not under construction, cancelled, a commitment rather than a site, double-counted)? Add or remove them in `data/projects.json`.
 - The look shared by Event Neutral pages (styles, light/dark switch, D3, sliders) is loaded from `https://eventneutral.com/kit/v1/`. Its source is in the `event-neutral-site` repository.
 
 ---

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project table · How much will US data center construction spending be in October 2026? · Event Neutral</title>
+<link rel="stylesheet" href="https://eventneutral.com/kit/v1/kit.css?v=3">
+<script src="https://eventneutral.com/kit/v1/theme.js"></script>
+<style>
+  .sum { font-size: 21px; line-height: 1.45; margin: 14px 0 6px; max-width: 34em; font-variant-numeric: tabular-nums; }
+  .sum b { font-weight: 650; }
+  .en-chart text { font-variant-numeric: tabular-nums; }
+  .key { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14.5px; color: var(--ink-soft); margin: 10px 0 0; }
+  .key i { display: inline-block; width: 12px; height: 10px; vertical-align: middle; margin-right: 6px; }
+  .scroll { overflow-x: auto; }
+  table.t { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 12px 0 14px; }
+  table.t th, table.t td { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.t th { color: var(--ink-faint); font-weight: 600; white-space: nowrap; }
+  table.t th button { all: unset; cursor: pointer; }
+  table.t th button:hover, table.t th button:focus-visible { color: var(--ink); }
+  table.t th[aria-sort] button { color: var(--ink); }
+  table.t th[aria-sort="ascending"] button::after { content: " ▲"; font-size: 10px; }
+  table.t th[aria-sort="descending"] button::after { content: " ▼"; font-size: 10px; }
+  table.t .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.t td.d { font-weight: 700; text-align: center; }
+  table.t th.d { text-align: center; }
+  .up { color: var(--s1); } .down { color: var(--s2); } .mix { color: var(--ink-soft); }
+  #projects { min-width: 2300px; }
+  #projects td:nth-child(1), #projects td:nth-child(2) { min-width: 130px; }
+  #projects td:nth-child(3), #projects td:nth-child(4), #projects td:nth-child(5), #projects td:nth-child(6) { min-width: 200px; }
+  #projects td:nth-child(14), #projects td:nth-child(15) { min-width: 280px; }
+  @media (max-width: 640px) { table.t { font-size: 13px; } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap wide bar-inner">
+    <a class="brand" href="https://eventneutral.com/">Event&nbsp;Neutral</a>
+    <nav class="nav">
+      <a href="https://eventneutral.com/">Home</a>
+      <a href="https://eventneutral.com/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wide">
+    <div class="kicker">Started 2026-11-10</div>
+    <h1>How much will US data center construction spending be in October 2026?</h1>
+    <nav class="wiki"><a href="../../">Question</a> <a href="../../model/">Model</a> <a href="../" aria-current="page">Projects</a></nav>
+    <p class="src"><a href="https://github.com/jmfinnegan12/data-center-spending-model">GitHub</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/issues/new">suggest a change</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/CONTRIBUTING.md">how to contribute</a></p>
+    <p class="crumbs"><a href="../">Projects</a> › Table</p>
+
+    <h2>Project table</h2>
+    <p class="sum" id="total"></p>
+    <div class="en-chart" id="bars"></div>
+    <div class="key" aria-hidden="true">
+      <span><i style="background:var(--ink-soft)"></i>Confirmed</span>
+      <span><i style="background:var(--s2)"></i>Estimated</span>
+      <span><i style="background:var(--ink-soft);opacity:.35"></i>Range</span>
+    </div>
+    <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Owner: who owns the buildings. Builder: general contractor. Customer: who uses the capacity. Confirmed: stated by the owner, builder, customer or a government record. Estimated: a third party. Census counts buildings, power and cooling, not chips and servers, so an investment figure that includes them overstates construction. Latest news: ↑ expanding or ahead, ↓ cut or delayed, ↕ mixed.</p>
+    <div class="scroll"><table class="t" id="projects"></table></div>
+    <p class="muted">Each figure and party links to its source. Data: <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/projects.json">projects.json</a>.</p>
+
+    <p class="muted" style="margin-top:28px">Last updated 2026-11-10 · <a href="https://github.com/jmfinnegan12/data-center-spending-model/commits/main/projects/table/index.html">history</a></p>
+    <p class="muted">Nothing here is financial advice or a recommendation to trade.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap wide foot-inner">© 2026 Temerity Ventures LLC · <a href="mailto:info@eventneutral.com">Contact</a></div>
+</footer>
+
+<script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
+<script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
+<script src="../shared.js?v=1"></script>
+<script>
+fetch('../../data/projects.json', { cache: 'no-cache' }).then((r) => r.json()).then((projects) => {
+  EVP.chart(projects);
+  EVP.table(projects);
+}).catch((e) => { document.getElementById('total').textContent = 'The data could not be loaded. Reload the page.'; console.error(e); });
+</script>
+</body>
+</html>
