@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How much will US data center construction spending be in October 2026? · Event Neutral</title>
+<link rel="stylesheet" href="https://eventneutral.com/kit/v1/kit.css?v=3">
+<script src="https://eventneutral.com/kit/v1/theme.js"></script>
+<style>
+  #history { margin: 14px 0 4px; }
+  #history text { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap bar-inner">
+    <a class="brand" href="https://eventneutral.com/">Event&nbsp;Neutral</a>
+    <nav class="nav">
+      <a href="https://eventneutral.com/">Home</a>
+      <a href="https://eventneutral.com/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="kicker">Started 2026-11-10</div>
+    <h1>How much will US data center construction spending be in October 2026?</h1>
+    <nav class="wiki"><a href="" aria-current="page">Question</a> <a href="model/">Model</a></nav>
+    <p class="src"><a href="https://github.com/jmfinnegan12/data-center-spending-model">GitHub</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/issues/new">suggest a change</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/CONTRIBUTING.md">how to contribute</a></p>
+
+    <h2>The number</h2>
+    <p>Each month the Census Bureau estimates the value of private data center construction put in place in the US, as a seasonally adjusted annual rate.<sup class="fn"><a href="#s1">1</a></sup> Buildings, site work, backup power and cooling count; racks and servers do not.<sup class="fn"><a href="#s2">2</a></sup> The monthly series starts in January 2014.<sup class="fn"><a href="#s1">1</a></sup></p>
+    <div class="en-chart" id="history"></div>
+
+    <h2>How Census estimates it</h2>
+    <ul>
+      <li><strong>A sample of projects.</strong> Drawn from Dodge Construction Network's lists of project starts. Projects of $100 million or more are all included.<sup class="fn"><a href="#s3">3</a></sup></li>
+      <li><strong>Owners report monthly, voluntarily.</strong> For a project that has not reported, Census fills in its total cost times the share that similar projects had completed at the same age. In 2025, 78% of private nonresidential dollars were filled in this way.<sup class="fn"><a href="#s3">3</a></sup></li>
+      <li><strong>Earlier months change.</strong> Filled-in values are redone each month and late reports replace them, so each release revises the two months before it. A yearly revision comes each July.<sup class="fn"><a href="#s3">3</a>,<a href="#s4">4</a></sup></li>
+      <li><strong>Projects missing from the lists</strong> are covered by raising the total 25%.<sup class="fn"><a href="#s3">3</a></sup></li>
+    </ul>
+
+    <h2><a class="t" href="rules/">The question</a></h2>
+    <p>Will the first published figure for October 2026 be above each of eleven strikes, from $90B to $115B in steps of $2.5B? Census publishes it on Dec 1, 2026, at 10:00 a.m. ET.<sup class="fn"><a href="#s5">5</a></sup> Later revisions do not count.<sup class="fn"><a href="#s6">6</a></sup> <a href="rules/">Rules →</a></p>
+
+    <h2 id="sources">Sources</h2>
+    <ol class="sources">
+      <li id="s1"><a href="https://www.census.gov/construction/c30/xlsx/privsatime.xlsx">US Census Bureau. Value of Private Construction Put in Place, seasonally adjusted annual rate, monthly. Release of 2026-11-02.</a></li>
+      <li id="s2"><a href="https://www.census.gov/construction/c30/definitions.html">US Census Bureau. Construction Spending definitions.</a></li>
+      <li id="s3"><a href="https://www.census.gov/construction/c30/pdf/methodology.pdf">US Census Bureau. Value Put in Place methodology.</a></li>
+      <li id="s4"><a href="https://www.census.gov/construction/c30/pdf/annualrevisions.pdf">US Census Bureau. Analysis of revisions to monthly estimates.</a></li>
+      <li id="s5"><a href="https://www.census.gov/construction/c30/release.html">US Census Bureau. Construction Spending release schedule.</a></li>
+      <li id="s6"><a href="https://kalshi.com/markets/kxdatacentcon">Kalshi. KXDATACENTCON market rules.</a></li>
+    </ol>
+
+    <p class="muted" style="margin-top:28px">Last updated 2026-11-10 · <a href="https://github.com/jmfinnegan12/data-center-spending-model/commits/main/index.html">history</a></p>
+    <p class="muted">Nothing here is financial advice or a recommendation to trade.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-inner">© 2026 Temerity Ventures LLC · <a href="mailto:info@eventneutral.com">Contact</a></div>
+</footer>
+
+<script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
+<script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
+<script>
+// The whole series, as Census shows it now.
+d3.csv('data/census_now.csv').then((rows) => {
+  const parse = d3.utcParse('%Y-%m');
+  const col = rows.columns[1];
+  const data = rows.map((r) => ({ t: parse(r.reference_month), v: +r[col] }));
+  const last = data[data.length - 1];
+  EN.chart.frame(document.getElementById('history'), (w) => Math.max(240, Math.min(340, w * 0.5)), ({ svg, width, height }) => {
+    svg.selectAll('*').remove();
+    const m = { t: 22, r: 62, b: 30, l: 46 };
+    const x = d3.scaleUtc(d3.extent(data, (d) => d.t), [m.l, width - m.r]);
+    const y = d3.scaleLinear([0, last.v * 1.08], [height - m.b, m.t]).nice(5);
+    svg.attr('aria-label', `Private data center construction spending, monthly, January 2014 to ${d3.utcFormat('%B %Y')(last.t)}: from $${data[0].v.toFixed(1)}B to $${last.v.toFixed(1)}B at an annual rate.`);
+    svg.append('g').attr('class', 'grid').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(width - m.l - m.r)).tickFormat(''));
+    svg.append('g').attr('class', 'axis').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(0).tickPadding(8).tickFormat((v) => `$${v}B`)).call((g) => g.select('.domain').remove());
+    svg.append('g').attr('class', 'axis').attr('transform', `translate(0,${height - m.b})`).call(d3.axisBottom(x).ticks(d3.utcYear.every(width < 520 ? 4 : 2)).tickSize(5).tickPadding(6).tickFormat(d3.utcFormat('%Y')));
+    svg.append('path').attr('fill', 'none').attr('stroke', 'var(--ink)').attr('stroke-width', 2).attr('d', d3.line().x((d) => x(d.t)).y((d) => y(d.v))(data));
+    svg.append('circle').attr('cx', x(last.t)).attr('cy', y(last.v)).attr('r', 4).attr('fill', 'var(--ink)');
+    svg.append('text').attr('class', 'end-label').attr('x', x(last.t) + 8).attr('y', y(last.v)).attr('dy', '0.35em').style('fill', 'var(--ink)').text(`$${last.v.toFixed(1)}B`);
+  });
+});
+</script>
+</body>
+</html>

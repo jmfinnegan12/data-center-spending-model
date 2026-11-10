@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model · How much will US data center construction spending be in October 2026? · Event Neutral</title>
+<link rel="stylesheet" href="https://eventneutral.com/kit/v1/kit.css?v=3">
+<script src="https://eventneutral.com/kit/v1/theme.js"></script>
+<style>
+  /* This page only. The shared look is loaded from eventneutral.com/kit/v1. */
+  .sum { font-size: 21px; line-height: 1.45; margin: 14px 0 6px; max-width: 34em; font-variant-numeric: tabular-nums; }
+  .sum b { font-weight: 650; }
+  .en-chart { margin: 14px 0 4px; }
+  .en-chart text { font-variant-numeric: tabular-nums; }
+  .key { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14.5px; color: var(--ink-soft); margin: 10px 0 0; }
+  .key i { display: inline-block; width: 16px; vertical-align: middle; margin-right: 6px; }
+  .key i.line { border-top: 2px solid var(--ink-faint); }
+  .key i.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--s1); }
+  .key i.band { height: 10px; background: var(--band); }
+  .key i.range { height: 10px; background: var(--s2); opacity: .28; }
+  .key i.proj { border-top: 2px dashed var(--s2); }
+  #ladder .bar { cursor: pointer; }
+  #ladder .bar:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
+
+  .inputs-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 48px 0 6px; }
+  .inputs-head h2 { margin: 0; }
+  .field { display: grid; grid-template-columns: minmax(0, 1fr) minmax(140px, 260px) 120px; column-gap: 20px; align-items: center; border-top: 1px solid var(--line); padding: 14px 0; }
+  .field .name { line-height: 1.3; font-weight: 600; }
+  .field .note { grid-column: 1 / -1; font-size: 15.5px; color: var(--ink-soft); margin: 6px 0 0; max-width: 68ch; }
+  .field .en-num input { width: 76px; }
+  .end { margin-top: 48px; }
+  .end dl { margin: 0 0 16px 20px; }
+  .end dt { font-weight: 600; margin-top: 12px; }
+  .end dd { margin: 2px 0 0; color: var(--ink-soft); max-width: 66ch; }
+  .end ul { margin-left: 20px; }
+  @media (max-width: 760px) {
+    .sum { font-size: 19px; }
+    .field { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name name" "slider box" "note note"; row-gap: 6px; column-gap: 14px; }
+    .field .name { grid-area: name; }
+    .field .en-range { grid-area: slider; }
+    .field .en-num { grid-area: box; }
+    .field .note { grid-area: note; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap wide bar-inner">
+    <a class="brand" href="https://eventneutral.com/">Event&nbsp;Neutral</a>
+    <nav class="nav">
+      <a href="https://eventneutral.com/">Home</a>
+      <a href="https://eventneutral.com/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wide">
+    <div class="kicker">Started 2026-11-10</div>
+    <h1>How much will US data center construction spending be in October 2026?</h1>
+    <nav class="wiki"><a href="../">Question</a> <a href="./" aria-current="page">Model</a></nav>
+    <p class="src"><a href="https://github.com/jmfinnegan12/data-center-spending-model">GitHub</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/issues/new">suggest a change</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/CONTRIBUTING.md">how to contribute</a></p>
+
+    <h2>Base rate</h2>
+    <p class="measure">The base rate is simply the prior month adjusted by the rate of change. We get the base rate, then analyze the current state and figure out if, and how, to adjust it.</p>
+    <p class="measure">Only the first published figure counts.<sup class="fn"><a href="#s4">4</a></sup> Census raises most months after first publishing them,<sup class="fn"><a href="#s2">2</a></sup> so the rate of change is measured from first print to first print.<sup class="fn"><a href="#s5">5</a></sup></p>
+    <p class="sum" id="base"></p>
+    <div class="en-chart" id="series"></div>
+    <div class="key" aria-hidden="true">
+      <span><i class="dot"></i>First published</span>
+      <span><i class="line"></i>As Census shows it now</span>
+      <span><i class="proj"></i>Base rate for October</span>
+      <span><i class="range"></i>Forecast range, 10% to 90%</span>
+    </div>
+
+    <h2>How the base rate has done</h2>
+    <p class="measure">Each month projected from the two first prints before it. A strike is $2.5B wide, so a miss inside $1.25B usually lands on the right side of the nearest strike.</p>
+    <div class="en-chart" id="misses"></div>
+    <div class="key" aria-hidden="true">
+      <span><i class="band"></i>Within $1.25B</span>
+    </div>
+
+    <h2>The forecast</h2>
+    <p class="sum" id="say" aria-live="polite"></p>
+    <div class="en-chart" id="dist"></div>
+    <div class="en-chart" id="ladder"></div>
+    <p class="muted hint">Pick a strike to shade the chance above it.</p>
+
+    <div class="inputs-head">
+      <h2>Inputs</h2>
+      <button class="en-btn" id="reset" type="button">Reset</button>
+    </div>
+    <p class="measure">Each input is my estimate. Change one and everything above updates. Dollar amounts are billions at an annual rate.</p>
+    <div id="inputs"></div>
+
+    <div class="end">
+      <details class="en-q">
+        <summary>Why these numbers</summary>
+        <dl>
+          <dt>Change carried forward from September</dt>
+          <dd>The base rate is the prior month adjusted by the rate of change. Five ways of computing it were tested month by month against first prints; the last month's change missed least and had the smallest worst miss, so it is the one used. Adding the change in the change made the misses larger.</dd>
+          <dt>Adjustment for the current state</dt>
+          <dd>Not yet set.</dd>
+          <dt>Size of a typical miss</dt>
+          <dd>A placeholder, not yet chosen. Measured as one standard deviation of the base rate's misses, it is $2.5B on first prints from March to September without May, $4.4B on Census's current figures over the last 12 months, and $7.2B over the last 24.<sup class="fn"><a href="#s2">2</a></sup></dd>
+        </dl>
+      </details>
+      <details class="en-q">
+        <summary>Assumptions</summary>
+        <ul>
+          <li>Misses are spread like a bell curve around the centre: as likely above as below.</li>
+          <li>October follows the same rule as the months before it.</li>
+          <li>The December 1 release carries no yearly revision. Census makes that each July.<sup class="fn"><a href="#s6">6</a></sup></li>
+        </ul>
+      </details>
+      <details class="en-q">
+        <summary>Weak points</summary>
+        <ul>
+          <li><strong>Few first prints.</strong> The backtest has seven months, one of them distorted by the yearly revision.</li>
+          <li><strong>Most of the figure is estimated, not reported.</strong> In 2025, 78% of private nonresidential dollars were filled in by Census for projects that had not reported. No rate is published for data centers alone.<sup class="fn"><a href="#s3">3</a></sup></li>
+          <li><strong>No published error</strong> for the data center line.</li>
+        </ul>
+      </details>
+      <details class="en-q">
+        <summary>What would change the forecast</summary>
+        <ul>
+          <li>First-hand reports of a large project starting, pausing or finishing.</li>
+          <li>A change to Census's methods or to the release date.</li>
+        </ul>
+      </details>
+      <details class="en-q">
+        <summary>Open questions</summary>
+        <ul>
+          <li>How much of the figure comes from a few very large projects?</li>
+          <li>Can project-level tracking predict which way the base rate will miss?</li>
+          <li>Why has Census raised every recent month after first publishing it?</li>
+        </ul>
+      </details>
+      <details class="en-q">
+        <summary>Update log</summary>
+        <dl>
+          <dt>2026-11-10</dt>
+          <dd>First draft.</dd>
+        </dl>
+      </details>
+      <details class="en-q">
+        <summary>Something missing? Suggest an improvement</summary>
+        <p class="measure"><a href="https://github.com/jmfinnegan12/data-center-spending-model/issues/new">Suggest a change</a> on GitHub, or copy the <a href="https://github.com/jmfinnegan12/data-center-spending-model">repository</a> and send your version (<a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/CONTRIBUTING.md">how to contribute</a>). The same calculation as a short script: <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/code/strike_probabilities.py">strike_probabilities.py</a>.</p>
+      </details>
+    </div>
+
+    <h2 id="sources">Sources</h2>
+    <ol class="sources">
+      <li id="s1"><a href="https://www.census.gov/construction/c30/release.html">US Census Bureau. Construction Spending release schedule.</a></li>
+      <li id="s2"><a href="https://www.census.gov/construction/c30/xlsx/privsatime.xlsx">US Census Bureau. Value of Private Construction Put in Place, seasonally adjusted annual rate, monthly. Release of 2026-11-02.</a></li>
+      <li id="s3"><a href="https://www.census.gov/construction/c30/pdf/methodology.pdf">US Census Bureau. Value Put in Place methodology.</a></li>
+      <li id="s4"><a href="https://kalshi.com/markets/kxdatacentcon">Kalshi. KXDATACENTCON market rules</a> and <a href="https://assets.kalshi.com/contract_terms/ECONSTAT.pdf">ECONSTAT contract terms</a>.</li>
+      <li id="s5"><a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/first_prints.csv">First published figures, from Internet Archive copies of the Census files</a>, each with its link.</li>
+      <li id="s6"><a href="https://www.census.gov/construction/c30/pdf/annualrevisions.pdf">US Census Bureau. Analysis of revisions to monthly estimates.</a></li>
+    </ol>
+
+    <p class="muted" style="margin-top:28px">Last updated 2026-11-10 · <a href="https://github.com/jmfinnegan12/data-center-spending-model/commits/main/model/index.html">history</a></p>
+    <p class="muted">Nothing here is financial advice or a recommendation to trade.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap wide foot-inner">© 2026 Temerity Ventures LLC · <a href="mailto:info@eventneutral.com">Contact</a></div>
+</footer>
+
+<script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
+<script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
+<script src="model.js?v=dc1"></script>
+<script src="page.js?v=dc3"></script>
+</body>
+</html>
