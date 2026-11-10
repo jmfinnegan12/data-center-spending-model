@@ -25,9 +25,10 @@
   table.t td.d { font-weight: 700; text-align: center; }
   table.t th.d { text-align: center; }
   .up { color: var(--s1); } .down { color: var(--s2); } .mix { color: var(--ink-soft); }
-  #projects { min-width: 1500px; }
-  #projects td:nth-child(1), #projects td:nth-child(2), #projects td:nth-child(3) { min-width: 130px; }
-  #projects td:nth-child(11), #projects td:nth-child(12) { min-width: 280px; }
+  #projects { min-width: 2300px; }
+  #projects td:nth-child(1), #projects td:nth-child(2) { min-width: 130px; }
+  #projects td:nth-child(3), #projects td:nth-child(4), #projects td:nth-child(5), #projects td:nth-child(6) { min-width: 200px; }
+  #projects td:nth-child(14), #projects td:nth-child(15) { min-width: 280px; }
   @media (max-width: 640px) { table.t { font-size: 13px; } }
 </style>
 </head>
@@ -59,7 +60,7 @@
       <span><i style="background:var(--s2)"></i>Estimated</span>
       <span><i style="background:var(--ink-soft);opacity:.35"></i>Range</span>
     </div>
-    <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Confirmed: stated by the owner, builder, tenant or a government record. Estimated: a third party. Census counts buildings, power and cooling, not chips and servers, so an investment figure that includes them overstates construction. Latest news: ↑ expanding or ahead, ↓ cut or delayed, ↕ mixed.</p>
+    <p class="muted measure">Capacity is as each source states it: IT load for some projects, total facility power for others, which runs higher. Owner: who owns the buildings. Builder: general contractor. Customer: who uses the capacity. Confirmed: stated by the owner, builder, customer or a government record. Estimated: a third party. Census counts buildings, power and cooling, not chips and servers, so an investment figure that includes them overstates construction. Latest news: ↑ expanding or ahead, ↓ cut or delayed, ↕ mixed.</p>
     <div class="scroll"><table class="t" id="projects"></table></div>
 
     <h2>Signals before each release</h2>
@@ -80,6 +81,12 @@
       <li>So little has happened in the Rocky Mountain West, which probably has the most available empty space for these projects, with lots of federal land. It could be a frontier for the next step up in new project starts.<sup class="fn"><a href="#s4">4</a></sup></li>
       <li>Is this the complete list? Are projects missing that belong on it, or are some on it that don't? Checked at every update.</li>
     </ul>
+
+    <h3>List check, 2026-11-10</h3>
+    <p class="measure">Possibly missing:</p>
+    <ul class="measure" id="missing"></ul>
+    <p class="measure">May not belong:</p>
+    <ul class="measure" id="notbelong"></ul>
 
     <h2 id="sources">Sources</h2>
     <ol class="sources">
@@ -168,7 +175,10 @@ Promise.all([
   sortable(document.getElementById('projects'), [
     { label: 'Project', key: (p) => p.name.toLowerCase(), html: (p) => `<a href="${esc(p.sources[0])}">${esc(p.name)}</a>` },
     { label: 'Location', key: (p) => p.location.toLowerCase(), html: (p) => esc(p.location) },
-    { label: 'Owner', key: (p) => p.owner.toLowerCase(), html: (p) => esc(p.owner) },
+    { label: 'Owner', key: (p) => (p.owner || '').toLowerCase() || null, html: (p) => esc(p.owner || '–') },
+    { label: 'Builder', key: (p) => (p.builder || '').toLowerCase() || null, html: (p) => esc(p.builder || '–') },
+    { label: 'Customer', key: (p) => (p.customer || '').toLowerCase() || null, html: (p) => esc(p.customer || '–') },
+    { label: 'Financed by', key: (p) => (p.financers || '').toLowerCase() || null, html: (p) => esc(p.financers || '–') },
     { label: 'Capacity (MW)', cls: 'n', desc: true, key: (p) => p.capacity_mw_high,
       html: (p) => link(p.capacity_source, range(p.capacity_mw_low, p.capacity_mw_high, d3.format(',')), [p.capacity_scope, p.capacity_estimate_note].filter(Boolean).join('. ')) },
     { label: 'Capacity basis', desc: true, key: (p) => BASIS[p.capacity_basis], html: (p) => basis(p.capacity_basis) },
@@ -181,7 +191,14 @@ Promise.all([
     { label: 'Started', key: (p) => p.construction_start, html: (p) => esc(p.construction_start || '–') },
     { label: 'Status', key: (p) => p.status.toLowerCase(), html: (p) => esc(p.status) },
     { label: 'Latest news', desc: true, key: (p) => DIR[p.direction], html: (p) => `<span class="${dcls(p.direction)}" style="font-weight:700">${dtxt(p.direction)}</span> ${esc(p.latest_signal)}` },
-  ], projects, [3, -1]);
+  ], projects, [6, -1]);
+
+  // ---------- list check ----------
+  fetch('../data/list_check.json', { cache: 'no-cache' }).then((r) => r.json()).then((lc) => {
+    const li = (x, where) => `<li><a href="${esc(x.source)}">${esc(x.name)}</a>${where ? ` (${esc(x.location)})` : ''}: ${esc(x.why)}</li>`;
+    document.getElementById('missing').innerHTML = lc.missing.map((x) => li(x, true)).join('');
+    document.getElementById('notbelong').innerHTML = lc.may_not_belong.map((x) => li(x, false)).join('');
+  });
 
   // ---------- look-back ----------
   const run = fp.filter((r) => r.first_print).map((r) => ({ m: r.reference_month, v: +r.first_print / 1000 }));

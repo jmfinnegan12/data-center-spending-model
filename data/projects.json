@@ -2,8 +2,7 @@
   {
     "name": "Stargate Abilene",
     "location": "Abilene, TX",
-    "owner": "Crusoe (builder); Oracle owns the chips",
-    "tenant": "OpenAI via Oracle",
+    "owner": "Crusoe / Blue Owl / Primary Digital JV (land from Lancium)",
     "construction_start": "2024-05",
     "expected_completion": "Buildings 7-8 around Q4 2026 (Epoch AI estimate)",
     "status": "6 of 8 buildings delivered, Sep 2026 (Oracle call as quoted by Epoch; an Oct article still cites two operating, so unconfirmed)",
@@ -26,13 +25,22 @@
     "investment_basis": "confirmed",
     "investment_includes_it": false,
     "investment_source": "https://www.crusoe.ai/resources/newsroom/crusoe-blue-owl-capital-and-primary-digital-infrastructure-enter-joint-venture",
-    "investment_note": "$15B Crusoe/Blue Owl/Primary Digital JV funding the data center (May 2025); Oracle buys the chips separately (about $40B per FT, relayed by DCD, search snippet only). Epoch model estimate $31.2B including IT."
+    "investment_note": "$15B Crusoe/Blue Owl/Primary Digital JV funding the data center (May 2025); Oracle buys the chips separately (about $40B per FT, relayed by DCD, search snippet only). Epoch model estimate $31.2B including IT.",
+    "builder": "DPR (GC); Rosendin (electrical); Southland (mechanical)",
+    "customer": "Oracle (15-yr lease); OpenAI end user",
+    "financers": "Blue Owl, Primary Digital, Crusoe equity; JPMorgan loans ($2.3B + $7.1B, reported); Oracle buys chips separately",
+    "party_sources": [
+      "https://www.crusoe.ai/resources/newsroom/crusoe-blue-owl-capital-and-primary-digital-infrastructure-enter-joint-venture",
+      "https://acppubs.com/PBE/article/14CD82BE-crusoe-energy-s-west-texas-data-center-projects-showcase-speed-scale-and-collaboration",
+      "https://www.commercialsearch.com/news/blue-owl-jv-lands-7-1b-for-data-center-project",
+      "https://commercialobserver.com/2025/01/j-p-morgan-chase-loan-texas-data-center-oracle/"
+    ],
+    "party_note": "Existing row says owner 'Crusoe (builder)'; the JV owns it. Builder roles are trade press (multi-prime, reporting to Crusoe), not a contractor release. Mortenson as power EPC seen on a weak source only."
   },
   {
     "name": "Meta Hyperion",
     "location": "Holly Ridge, Richland Parish, LA",
-    "owner": "Meta",
-    "tenant": "Meta",
+    "owner": "Joint venture (Beignet Investor): Blue Owl funds 80%, Meta 20%",
     "construction_start": "2024-12",
     "expected_completion": "Full build-out 2036; first phase operating about Jan 2028 (Epoch estimate)",
     "status": "Expansion to 5 GW and over $50B announced Jul 2026; about 5,000 workers at peak, 7,500 projected",
@@ -55,13 +63,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": false,
     "investment_source": "https://about.fb.com/news/2026/07/teachers-local-businesses-win-as-meta-expands-louisiana-data-center/",
-    "investment_note": "'More than $50 billion' (Meta, 2026-07-13). Bloomberg reports it excludes chips (relayed by SiliconANGLE; Meta does not say). Bloomberg-sourced estimate with chips about $250B. Epoch estimate $61.8B including IT for first phase (1,632 MW). Earlier: $10B (Dec 2024), $27B Blue Owl JV (Oct 2025)."
+    "investment_note": "'More than $50 billion' (Meta, 2026-07-13). Bloomberg reports it excludes chips (relayed by SiliconANGLE; Meta does not say). Bloomberg-sourced estimate with chips about $250B. Epoch estimate $61.8B including IT for first phase (1,632 MW). Earlier: $10B (Dec 2024), $27B Blue Owl JV (Oct 2025).",
+    "builder": "Turner, DPR, Mortenson (GCs; split not stated); Meta is construction manager",
+    "customer": "Meta (operating leases for the whole campus)",
+    "financers": "Blue Owl ~$7B cash; $27.3B senior secured bonds (Pimco bought ~$18B, reporting); Meta residual value guarantee",
+    "party_sources": [
+      "https://about.fb.com/news/2025/10/meta-blue-owl-capital-develop-hyperion-data-center/",
+      "https://about.fb.com/news/2025/12/metas-richland-parish-data-center-supports-louisiana-economy-875-million-in-contracts/",
+      "https://finance.yahoo.com/news/meta-27-billion-financing-deal-205329481.html"
+    ],
+    "party_note": "Existing row says owner Meta; Meta's own release says the JV owns it and Meta leases it. Bond and Pimco detail is reporting; Jul 2026 $50B expansion financing not checked."
   },
   {
     "name": "Meta Prometheus",
     "location": "New Albany, OH",
-    "owner": "Meta (some buildings QTS-owned or Vantage-built per Epoch)",
-    "tenant": "Meta",
+    "owner": "Meta (Epoch says some buildings QTS-owned or Vantage-built)",
     "construction_start": "2022",
     "expected_completion": "More buildings through mid-2028 (Epoch estimate)",
     "status": "Buildings 7-10 operating about Aug 2026 (Epoch satellite estimate, 471 MW IT)",
@@ -82,13 +98,20 @@
     "investment_basis": "estimated",
     "investment_includes_it": true,
     "investment_source": "https://epoch.ai/data/ai-data-centers/directory/meta-prometheus",
-    "investment_note": "No owner-stated total found. Range is Epoch model: $17.8B for 471 MW now, $38.7B for 1,022 MW projected, including chips. A 2022 Meta New Albany campus figure of $1.5B (local press, search snippet) covers earlier buildings, not Prometheus."
+    "investment_note": "No owner-stated total found. Range is Epoch model: $17.8B for 471 MW now, $38.7B for 1,022 MW projected, including chips. A 2022 Meta New Albany campus figure of $1.5B (local press, search snippet) covers earlier buildings, not Prometheus.",
+    "builder": "Turner (per headline only; article not readable)",
+    "customer": "Meta",
+    "financers": null,
+    "party_sources": [
+      "https://epoch.ai/data/ai-data-centers/directory/meta-prometheus",
+      "https://www.constructionbriefing.com/news/turner-resumes-work-on-metas-prometheus-data-centre-after-firearm-incident/8094830.article"
+    ],
+    "party_note": "Turner role seen in a headline snippet only (page returned 403). No Meta statement on ownership structure or financing found."
   },
   {
     "name": "Meta El Paso",
     "location": "El Paso, TX",
-    "owner": "Meta",
-    "tenant": "Meta",
+    "owner": "Venture: BlackRock-managed funds (GIP, HPS) 80%, Meta 20%",
     "construction_start": "2025",
     "expected_completion": "2028",
     "status": "Under construction; investment raised to over $10B in Mar 2026 (headline snippet); no dated milestone found",
@@ -109,13 +132,20 @@
     "investment_basis": "confirmed",
     "investment_includes_it": false,
     "investment_source": "https://about.fb.com/news/2026/07/meta-announces-new-venture-with-blackrock-to-develop-data-center-in-el-paso/",
-    "investment_note": "Low: 'investment of over $10 billion from Meta'. High: about $14B total development costs for buildings and long-lived power, cooling, connectivity (Meta/BlackRock venture, Jul 2026), which excludes servers. Bloomberg Mar 2026 also reported $10B."
+    "investment_note": "Low: 'investment of over $10 billion from Meta'. High: about $14B total development costs for buildings and long-lived power, cooling, connectivity (Meta/BlackRock venture, Jul 2026), which excludes servers. Bloomberg Mar 2026 also reported $10B.",
+    "builder": "Meta is construction manager; GC null",
+    "customer": "Meta (sole occupant, leases whole campus)",
+    "financers": "BlackRock ~$4.9B cash; $12.5B debt; Meta residual value guarantee (~$13B threshold)",
+    "party_sources": [
+      "https://about.fb.com/news/2026/07/meta-announces-new-venture-with-blackrock-to-develop-data-center-in-el-paso/",
+      "https://www.thestar.com.my/tech/tech-news/2026/07/28/meta-blackrock-partner-on-14-billion-el-paso-data-center"
+    ],
+    "party_note": "Existing row says owner Meta; the venture structure was announced 2026-07-28, closing expected days later (close not confirmed here). Figures from search summaries of Meta release and Reuters-based coverage."
   },
   {
     "name": "Project Rainier (Anthropic-Amazon)",
     "location": "New Carlisle, IN",
-    "owner": "Amazon",
-    "tenant": "Anthropic",
+    "owner": "Amazon (AWS), self-built",
     "construction_start": "2024-02",
     "expected_completion": "Buildings 19-32 around Mar 2028 (Epoch estimate)",
     "status": "18 of 32 planned buildings built or roofed; buildings 17-18 roofed Jun 2026 (Epoch)",
@@ -136,13 +166,20 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://rebusinessonline.com/amazon-web-services-to-develop-11b-data-center-campus-in-northern-indiana/",
-    "investment_note": "AWS $11B (Apr 2024; county incentives Aug 2024: https://www.insideindianabusiness.com/articles/incentives-approved-for-amazon-data-center-project). Whether it includes servers is not stated. Epoch model $39.3B now, $72.9B projected, including IT. Amazon's separate $15B (Nov 2025) is for other northern Indiana campuses."
+    "investment_note": "AWS $11B (Apr 2024; county incentives Aug 2024: https://www.insideindianabusiness.com/articles/incentives-approved-for-amazon-data-center-project). Whether it includes servers is not stated. Epoch model $39.3B now, $72.9B projected, including IT. Amazon's separate $15B (Nov 2025) is for other northern Indiana campuses.",
+    "builder": "Four general contractors working in parallel, unnamed",
+    "customer": "Anthropic",
+    "financers": "Amazon capex ($11B announced)",
+    "party_sources": [
+      "https://rebusinessonline.com/amazon-web-services-to-develop-11b-data-center-campus-in-northern-indiana/",
+      "https://thenightly.com.au/business/the-new-york-times-at-amazons-biggest-data-centre-everything-is-supersized-for-ai-c-19309860"
+    ],
+    "party_note": "Contractor count is from the NYT as reprinted (reporting). Names not found."
   },
   {
     "name": "Colossus 2",
     "location": "Memphis, TN and Southaven, MS",
-    "owner": "xAI (Epoch lists owner as SpaceXAI)",
-    "tenant": "xAI",
+    "owner": "xAI (Southaven land held by affiliate MZX Tech LLC); Epoch lists SpaceXAI",
     "construction_start": "2025-02",
     "expected_completion": "Building 3 around Feb 2027 (Epoch estimate)",
     "status": "Building 3 roof about half complete, Jun 2026 (Epoch)",
@@ -163,13 +200,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://www.yahoo.com/news/articles/ms-governor-confirms-major-announcement-173629625.html",
-    "investment_note": "$20B for the Southaven MS facility only (Gov. Reeves, 2026-01-08), not the Memphis buildings; Mississippi data center incentive covers computing hardware, but the release does not say whether $20B includes it. Epoch model $35.8B now, $58.0B projected, including IT. A $659M Memphis expansion filing (Mar 2026) seen only as a Baxtel headline."
+    "investment_note": "$20B for the Southaven MS facility only (Gov. Reeves, 2026-01-08), not the Memphis buildings; Mississippi data center incentive covers computing hardware, but the release does not say whether $20B includes it. Epoch model $35.8B now, $58.0B projected, including IT. A $659M Memphis expansion filing (Mar 2026) seen only as a Baxtel headline.",
+    "builder": null,
+    "customer": "xAI (Epoch also lists Anthropic and Cursor as users, unverified)",
+    "financers": "GPU-only SPV: Valor (equity lead), Apollo, Nvidia up to $2B; ~$7.5B equity, up to $12.5B debt (Oct 2025 reporting, unconfirmed)",
+    "party_sources": [
+      "https://convergedigest.com/nvidia-reportedly-invests-up-to-2b-in-xai-to-power-colossus-2/",
+      "https://desotocountynews.com/desoto-county-news/xai-buys-southaven-property/",
+      "https://epoch.ai/data/ai-data-centers/directory/xai-colossus-2"
+    ],
+    "party_note": "Financing covers chips, not buildings. No contractor found; Shelby/DeSoto permit records would name one."
   },
   {
     "name": "Microsoft Fairwater Atlanta",
     "location": "Fayetteville, GA",
-    "owner": "QTS (builder); Microsoft tenant",
-    "tenant": "Microsoft",
+    "owner": "QTS (developer; Baxtel says Microsoft leases from QTS); Epoch lists Microsoft as owner - sources conflict",
     "construction_start": "2023-04",
     "expected_completion": "Two new shells underway May 2026, tenant unknown",
     "status": "Buildings 3-4 operating about Jun 2026 (Epoch estimate)",
@@ -190,13 +235,21 @@
     "investment_basis": "estimated",
     "investment_includes_it": true,
     "investment_source": "https://epoch.ai/data/ai-data-centers/directory/microsoft-fairwater-atlanta",
-    "investment_note": "Epoch model including chips. Microsoft did not disclose cost. Local press (2022, snippet only) said the QTS campus investment would top $1B, which is shell only."
+    "investment_note": "Epoch model including chips. Microsoft did not disclose cost. Local press (2022, snippet only) said the QTS campus investment would top $1B, which is shell only.",
+    "builder": null,
+    "customer": "Microsoft; OpenAI likely (Epoch, hedged)",
+    "financers": null,
+    "party_sources": [
+      "https://epoch.ai/data/ai-data-centers/directory/microsoft-fairwater-atlanta",
+      "https://www.ajc.com/business/2025/11/microsofts-newest-ai-superfactory-opens-at-sprawling-fayetteville-campus",
+      "https://www.cleanview.co/data-centers/georgia/3588/microsoft-fairwater-atlanta---building-2"
+    ],
+    "party_note": "No Microsoft or QTS statement on who owns the buildings. No GC found."
   },
   {
     "name": "Microsoft Fairwater Wisconsin",
     "location": "Mount Pleasant, WI",
     "owner": "Microsoft",
-    "tenant": "Microsoft",
     "construction_start": "2023-07",
     "expected_completion": "Second facility due 2028",
     "status": "First building operating Jun 2026; Oct 14 2026 plan commission cut buildings from 9 to 7",
@@ -218,13 +271,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://fox6now.com/news/microsoft-wisconsin-next-infrastructure-investment-announced",
-    "investment_note": "$3.3B first datacenter plus additional $4B announced 2025-09-18 (Microsoft). Whether it includes servers is not stated. Epoch model $14.0B for building 1 and $85.7B projected, including IT. Later 7-building, 5.8M sq ft plan (WPR, Oct 2026) may exceed this."
+    "investment_note": "$3.3B first datacenter plus additional $4B announced 2025-09-18 (Microsoft). Whether it includes servers is not stated. Epoch model $14.0B for building 1 and $85.7B projected, including IT. Later 7-building, 5.8M sq ft plan (WPR, Oct 2026) may exceed this.",
+    "builder": "Walsh (lead GC on first campus, 2023 reports); Kiewit; Mortenson also named by Daily Reporter (phase unclear)",
+    "customer": "Microsoft (OpenAI likely per Epoch)",
+    "financers": "Microsoft (self-funded); village infrastructure financing only",
+    "party_sources": [
+      "https://www.fox6now.com/news/microsoft-wisconsin-next-infrastructure-investment-announced.amp",
+      "https://commercialsearch.com/news/microsoft-breaks-ground-on-1b-data-center",
+      "https://dailyreporter.com/2025/12/30/wisconsin-construction-projects-to-watch-for-in-2026/"
+    ],
+    "party_note": "Contractor assignments are trade/local press (reporting); which firm builds the second facility not confirmed."
   },
   {
     "name": "Project Jupiter",
     "location": "Santa Teresa, Dona Ana County, NM",
     "owner": "STACK Infrastructure and BorderPlex Digital Assets",
-    "tenant": "Oracle (18-year lease); OpenAI primary client (snippet)",
     "construction_start": "2025-12",
     "expected_completion": "Q4 2028 (Epoch blog)",
     "status": "First 855,000 sq ft building topped out (aggregator); Dodge counted $12.8B phase 1 as a Jul 2026 start; all phases still need building permits",
@@ -247,13 +308,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": true,
     "investment_source": "https://donaana.gov/projectjupiter ; https://www.santafenewmexican.com/news/local_news/do-a-ana-county-approves-165-billion-in-bonds-for-massive-ai-data-center-near/article_29bdb65d-ada4-43c4-8a0f-ba54f5e2a1b9.html",
-    "investment_note": "County page: minimum initial investment $50B, up to $165B over 30 years (bond authorization, not committed spend). County bond counsel split: $15B microgrid, $25B buildings and infrastructure, $125B equipment. Phase 1 (400 acres plus microgrid) due Q3 2028."
+    "investment_note": "County page: minimum initial investment $50B, up to $165B over 30 years (bond authorization, not committed spend). County bond counsel split: $15B microgrid, $25B buildings and infrastructure, $125B equipment. Phase 1 (400 acres plus microgrid) due Q3 2028.",
+    "builder": null,
+    "customer": "Oracle (18-yr lease); OpenAI ultimate user",
+    "financers": "Reported ~$18B loan package (single weak source); county IRBs up to $165B authorized (bond authority, not committed spend)",
+    "party_sources": [
+      "https://donaana.gov/projectjupiter",
+      "https://www.abqjournal.com/business/doa-na-countys-project-jupiter-joins-500-billion-stargate-initiative-led-by-openai-oracle/493927",
+      "https://cryptobriefing.com/oracle-payment-protection-new-mexico-data-center/"
+    ],
+    "party_note": "Existing research names Clayco and Kiewit as GC from an aggregator snippet; I could not confirm it. Bloom Energy supplies the on-site fuel-cell microgrid. Local trades (Icon Mechanical, Mass Electric) recruited."
   },
   {
     "name": "Stargate Frontier",
     "location": "Shackelford County, TX",
-    "owner": "Vantage",
-    "tenant": "OpenAI and Oracle",
+    "owner": "Vantage Data Centers (TX304 LLC)",
     "construction_start": "2025-08",
     "expected_completion": "First buildings H2 2026; 10 buildings in all",
     "status": "Systems being fitted; OpenAI initial capacity expected fiscal Q2 2027 (snippet)",
@@ -274,13 +343,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://rebusinessonline.com/vantage-data-centers-to-invest-25b-for-mega-campus-in-shackleford-county-texas/",
-    "investment_note": "'Over $25 billion' (Vantage, 2025-08-19), its largest investment; whether it includes servers is not stated (Vantage is the landlord, Oracle/OpenAI supply the compute). No estimate found."
+    "investment_note": "'Over $25 billion' (Vantage, 2025-08-19), its largest investment; whether it includes servers is not stated (Vantage is the landlord, Oracle/OpenAI supply the compute). No estimate found.",
+    "builder": null,
+    "customer": "Oracle; OpenAI end user",
+    "financers": "JPMorgan and MUFG-led ~$23B loan (part of reported $38B package with Wisconsin; Bloomberg-sourced)",
+    "party_sources": [
+      "https://www.businesswire.com/news/home/20250819333311/en",
+      "https://www.bloomberg.com/news/articles/2025-09-04/banks-ready-38-billion-of-debt-for-data-centers-tied-to-oracle",
+      "https://www.zabalist.com/projects/TABS2026024091"
+    ],
+    "party_note": "TDLR filing (via aggregator) lists Kiewit as design firm only, not GC. VoltaGrid is the power partner. Equity sponsors of Vantage not verified."
   },
   {
     "name": "Stargate Michigan",
     "location": "Saline Township, MI",
     "owner": "Related Digital",
-    "tenant": "Oracle and OpenAI",
     "construction_start": "2026-01",
     "expected_completion": "Phased through 2027",
     "status": "All 3 buildings (550,000 sq ft each) under construction, first nearly complete, Jun 2026 (snippet)",
@@ -302,13 +379,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://www.related.com/press-releases/2026-04-24/related-digital-announces-financing-16-billion-oracle-data-center-project",
-    "investment_note": "Related Digital: '$16 billion data center campus' (financing release, 2026-04-24). Landlord cost for a campus built for Oracle, so servers likely supplied by Oracle, but the release does not say. Earlier release (Oct 2025) said only 'multi-billion'; $10B was reported in Dec 2025."
+    "investment_note": "Related Digital: '$16 billion data center campus' (financing release, 2026-04-24). Landlord cost for a campus built for Oracle, so servers likely supplied by Oracle, but the release does not say. Earlier release (Oct 2025) said only 'multi-billion'; $10B was reported in Dec 2025.",
+    "builder": "Walbridge (GC)",
+    "customer": "Oracle; OpenAI end user",
+    "financers": "Blackstone ~$2B equity; Bank of America-led debt, ~$14B bonds with Pimco ~$10B (Bloomberg-sourced reporting)",
+    "party_sources": [
+      "https://www.related.com/press-releases/2026-04-24/related-digital-announces-financing-16-billion-oracle-data-center-project",
+      "https://www.constructionowners.com/news/walbridge-constructs-16-billion-michigan-ai-data-center-campus",
+      "https://www.commercialsearch.com/news/related-blackstone-obtain-16b-for-michigan-oracle-project/"
+    ],
+    "party_note": "Blackstone replaced Blue Owl, which withdrew (reporting). Walbridge role from the constructionowners.com report of Walbridge's announcement."
   },
   {
     "name": "Stargate Milam County",
     "location": "Milam County, TX",
     "owner": "SB Energy (SoftBank)",
-    "tenant": "OpenAI",
     "construction_start": "2025",
     "expected_completion": "Q4 2028 (Epoch)",
     "status": "No 2026 progress report found",
@@ -329,13 +414,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": false,
     "investment_source": "https://www.tdlr.texas.gov/TABS/Projects/TABS2026017746",
-    "investment_note": "Texas TDLR record, Freebird Data Center Phase 1 only (548,950 sq ft, 4 halls, owner Milam County Data Center LLC), construction only. Whole-campus investment not stated by owner. Epoch estimate $32.5B incl. IT for full build. The $1B OpenAI/SoftBank equity in SB Energy is not a project cost. A Real Deal headline (June 2025) reports a $3B Texas plan; seen as title only, unverified."
+    "investment_note": "Texas TDLR record, Freebird Data Center Phase 1 only (548,950 sq ft, 4 halls, owner Milam County Data Center LLC), construction only. Whole-campus investment not stated by owner. Epoch estimate $32.5B incl. IT for full build. The $1B OpenAI/SoftBank equity in SB Energy is not a project cost. A Real Deal headline (June 2025) reports a $3B Texas plan; seen as title only, unverified.",
+    "builder": null,
+    "customer": "OpenAI (1.2 GW)",
+    "financers": "SoftBank and OpenAI $500M each into SB Energy ($1B total)",
+    "party_sources": [
+      "https://openai.com/index/stargate-sb-energy-partnership/",
+      "https://pv-magazine-usa.com/2026/01/12/sb-energy-secures-1-billion-from-openai-and-softbank-for-stargate-datacenter-expansion",
+      "https://www.tdlr.texas.gov/TABS/Projects/TABS2026017746"
+    ],
+    "party_note": "SB Energy 'to build and operate'; no GC found. TDLR names Corgan as design firm only. The $1B is company equity, not project debt."
   },
   {
     "name": "Stargate Lighthouse",
     "location": "Port Washington, WI",
-    "owner": "Vantage",
-    "tenant": "Oracle and OpenAI",
+    "owner": "Vantage Data Centers",
     "construction_start": "2025-12",
     "expected_completion": "Q4 2028 (Epoch blog)",
     "status": "No 2026 progress found; 4 buildings planned",
@@ -356,13 +449,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://dailyreporter.com/2025/12/18/15-billion-vantage-data-center-breaks-ground-in-port-washington/",
-    "investment_note": "Vantage-announced $15B (earlier $8B reported; first-phase split not found in any source read). Unclear whether IT equipment is included; Epoch estimate $34.2B incl. IT."
+    "investment_note": "Vantage-announced $15B (earlier $8B reported; first-phase split not found in any source read). Unclear whether IT equipment is included; Epoch estimate $34.2B incl. IT.",
+    "builder": "Whiting-Turner; Weitz (Turner/McCarthy JV); Michels (ENR; later coverage omits Michels)",
+    "customer": "Oracle; OpenAI",
+    "financers": "Part of reported $38B JPMorgan/MUFG package ($14.8B Wisconsin share); Vantage fronts $175M infrastructure; TIF $458.6M (local)",
+    "party_sources": [
+      "https://digital.bnpmedia.com/article/PROJECT+DELIVERY/5074278/857075/article.html",
+      "https://dailyreporter.com/2025/12/18/15-billion-vantage-data-center-breaks-ground-in-port-washington/",
+      "https://datacenterdynamics.com/en/news/jpmorgan-chase-and-mitsubishi-ufj-lead-38bn-debt-package-for-oracle-linked-data-centers-report/"
+    ],
+    "party_note": "Construction team named for the $8B first phase only."
   },
   {
     "name": "Google Pryor",
     "location": "Pryor, OK",
     "owner": "Google",
-    "tenant": "Google",
     "construction_start": "2024",
     "expected_completion": "Building 2 operating Sep 2026 (drone imagery)",
     "status": "Building 2 operating about Sep 6 2026",
@@ -383,13 +484,20 @@
     "investment_basis": "estimated",
     "investment_includes_it": true,
     "investment_source": "https://epoch.ai/data/ai-data-centers/directory/google-pryor-north",
-    "investment_note": "Epoch cumulative cost model incl. chips. Google confirmed $9B over two years across Oklahoma (Pryor expansion plus new Stillwater campus), not Pryor alone: https://www.okenergytoday.com/2025/08/9-billion-spending-planned-in-oklahoma-as-google-expands-ties (seen in search snippet)."
+    "investment_note": "Epoch cumulative cost model incl. chips. Google confirmed $9B over two years across Oklahoma (Pryor expansion plus new Stillwater campus), not Pryor alone: https://www.okenergytoday.com/2025/08/9-billion-spending-planned-in-oklahoma-as-google-expands-ties (seen in search snippet).",
+    "builder": null,
+    "customer": "Google",
+    "financers": "Google (self-funded)",
+    "party_sources": [
+      "https://epoch.ai/data/ai-data-centers/directory/google-pryor-north",
+      "https://www.okenergytoday.com/2025/08/9-billion-spending-planned-in-oklahoma-as-google-expands-ties"
+    ],
+    "party_note": "Contractor not searched beyond existing research (which names SPX cooling towers only); treat as unknown."
   },
   {
     "name": "Google Texas campuses (Armstrong, Haskell and others)",
     "location": "TX",
     "owner": "Google",
-    "tenant": "Google",
     "construction_start": null,
     "expected_completion": "Through 2027",
     "status": "$40B through 2027 announced Nov 2025; no progress found. Oct 8 2026 stormwater permit for a Google DFW project issued despite the state freeze",
@@ -411,13 +519,20 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://blog.google/inside-google/company-announcements/google-american-innovation-texas/",
-    "investment_note": "Google, 2025-11-14: $40B in Texas through 2027 for cloud and AI infrastructure; also covers solar/storage, training, a $30M fund and the existing Midlothian site, so not purely the three campuses. IT content not stated."
+    "investment_note": "Google, 2025-11-14: $40B in Texas through 2027 for cloud and AI infrastructure; also covers solar/storage, training, a $30M fund and the existing Midlothian site, so not purely the three campuses. IT content not stated.",
+    "builder": null,
+    "customer": "Google",
+    "financers": "Google; Haskell solar+storage via INtersect and TPG Rise Climate (power, not the data center)",
+    "party_sources": [
+      "https://blog.google/inside-google/company-announcements/google-american-innovation-texas/",
+      "https://www.datacenterdynamics.com/en/news/google-commits-40bn-to-expand-cloud-and-ai-infrastructure-in-texas-through-2027/"
+    ],
+    "party_note": "No contractor named in any source found."
   },
   {
     "name": "Anthropic-Fluidstack sites",
     "location": "TX and NY",
-    "owner": "Fluidstack",
-    "tenant": "Anthropic",
+    "owner": null,
     "construction_start": null,
     "expected_completion": "Online through 2026",
     "status": "$50B announced Nov 2025 with 2,400 construction jobs; no 2026 progress found",
@@ -438,13 +553,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure",
-    "investment_note": "Anthropic commitment, 2025-11-12: $50B in US computing infrastructure, starting with Fluidstack sites in TX and NY with more planned, so not only these sites. Whether it includes chips is not stated."
+    "investment_note": "Anthropic commitment, 2025-11-12: $50B in US computing infrastructure, starting with Fluidstack sites in TX and NY with more planned, so not only these sites. Whether it includes chips is not stated.",
+    "builder": "Fluidstack (builds custom sites per Anthropic/Fluidstack)",
+    "customer": "Anthropic",
+    "financers": "Anthropic ($50B commitment); other parties null",
+    "party_sources": [
+      "https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure",
+      "https://fluidstack.io/blog/fluidstack-selected-by-anthropic-to-deliver-custom-data-centers-in-the-us",
+      "https://datacenterdynamics.com/en/news/anthropic-plans-50bn-us-data-center-spend-starting-with-fluidstack-sites-in-texas-and-new-york"
+    ],
+    "party_note": "Existing row says owner Fluidstack; no source confirms Fluidstack owns the buildings. DCD speculates sites are TeraWulf Lake Mariner NY and Abernathy/Cipher TX (inference, not confirmed by Anthropic); those owners may be the real landlords."
   },
   {
     "name": "Amazon campuses (Mississippi, North Carolina, Pennsylvania)",
     "location": "MS, NC, PA",
-    "owner": "Amazon",
-    "tenant": "Amazon",
+    "owner": "Amazon (AWS)",
     "construction_start": null,
     "expected_completion": null,
     "status": "Announced MS +$12B (Apr 2026), NC $10B, PA $20B; no construction status found (snippets)",
@@ -465,13 +588,21 @@
     "investment_basis": "confirmed",
     "investment_includes_it": null,
     "investment_source": "https://www.mpbonline.org/blogs/news/amazon-announces-additional-12-billion-for-data-centers-in-central-mississippi/",
-    "investment_note": "Amazon announcements, all seen via search snippets: NC $10B (Jun 2025, https://www.carolinajournal.com/amazon-plans-10b-ai-data-center-in-richmond-county/), PA at least $20B (Jun 2025, https://www.datacenterdynamics.com/en/news/amazon-to-invest-20bn-in-data-centers-in-pennsylvania/), MS $25B state total (Apr 2026; $12B new, $13B earlier). Low 42 = NC+PA+MS new $12B (our earlier figure); high 55 = with all MS $25B. Dodge lists a separate $2.0B AWS Phase 2 in Canton MS (estimated)."
+    "investment_note": "Amazon announcements, all seen via search snippets: NC $10B (Jun 2025, https://www.carolinajournal.com/amazon-plans-10b-ai-data-center-in-richmond-county/), PA at least $20B (Jun 2025, https://www.datacenterdynamics.com/en/news/amazon-to-invest-20bn-in-data-centers-in-pennsylvania/), MS $25B state total (Apr 2026; $12B new, $13B earlier). Low 42 = NC+PA+MS new $12B (our earlier figure); high 55 = with all MS $25B. Dodge lists a separate $2.0B AWS Phase 2 in Canton MS (estimated).",
+    "builder": "Mississippi (Madison County and Ridgeland, $10B): Yates, Gray, Haskell; NC and PA null",
+    "customer": "Amazon",
+    "financers": "Amazon (self-funded)",
+    "party_sources": [
+      "https://www.constructionequipmentguide.com/several-top-regional-contractors-are-building-10b-twin-aws-data-centers-in-mississippi/65887",
+      "https://www.mpbonline.org/blogs/news/amazon-announces-additional-12-billion-for-data-centers-in-central-mississippi/",
+      "https://www.carolinajournal.com/amazon-plans-10b-ai-data-center-in-richmond-county/"
+    ],
+    "party_note": "Builders for the 2024 Mississippi campuses only; the 2026 $12B Mississippi add-on and NC/PA builders not found."
   },
   {
     "name": "Microsoft-Crusoe Abilene expansion",
     "location": "Abilene, TX",
     "owner": "Crusoe",
-    "tenant": "Microsoft",
     "construction_start": null,
     "expected_completion": null,
     "status": "Leased to Microsoft after OpenAI dropped expansion, spring 2026",
@@ -492,13 +623,20 @@
     "investment_basis": null,
     "investment_includes_it": null,
     "investment_source": null,
-    "investment_note": "No investment figure in Crusoe's release or elsewhere found."
+    "investment_note": "No investment figure in Crusoe's release or elsewhere found.",
+    "builder": "Crusoe (developer); GC null",
+    "customer": "Microsoft (900 MW)",
+    "financers": null,
+    "party_sources": [
+      "https://www.crusoe.ai/resources/newsroom/crusoe-announces-new-900-mw-ai-factory-campus-in-abilene-texas-to-support-microsoft-ai-infrastructure",
+      "https://datacenterdynamics.com/en/news/crusoe-confirms-microsoft-as-customer-at-campus-in-abilene-texas"
+    ],
+    "party_note": "No financing named. Site prep underway, first building energized mid-2027."
   },
   {
     "name": "Prairie Ridge Phase 1",
     "location": "Midlothian, TX",
-    "owner": "Provident / PowerHouse",
-    "tenant": null,
+    "owner": "Prairie Ridge Phase 1 Owner LP (Provident / PowerHouse)",
     "construction_start": "2026-04",
     "expected_completion": null,
     "status": "Counted by Dodge as an April 2026 start at $5.0B",
@@ -519,13 +657,20 @@
     "investment_basis": "estimated",
     "investment_includes_it": false,
     "investment_source": "https://www.tdlr.texas.gov/TABS/Projects/TABS2026016734",
-    "investment_note": "Low is confirmed: Texas TDLR record, owner Prairie Ridge Phase 1 Owner LP, $72,590,278 for Building 1 only (224,152 sq ft shell, 2026-04 to 2028-04). High $5.0B is Dodge's Phase 1 valuation (https://www.construction.com/construction-starts-power-on-up-9-in-april-2/, estimated); Provident touted at least $5B construction impact for the campus (snippet). Dodge value may be campus-wide, not Phase 1."
+    "investment_note": "Low is confirmed: Texas TDLR record, owner Prairie Ridge Phase 1 Owner LP, $72,590,278 for Building 1 only (224,152 sq ft shell, 2026-04 to 2028-04). High $5.0B is Dodge's Phase 1 valuation (https://www.construction.com/construction-starts-power-on-up-9-in-april-2/, estimated); Provident touted at least $5B construction impact for the campus (snippet). Dodge value may be campus-wide, not Phase 1.",
+    "builder": null,
+    "customer": null,
+    "financers": null,
+    "party_sources": [
+      "https://www.tdlr.texas.gov/TABS/Projects/TABS2026016734",
+      "https://datacenterdynamics.com/en/news/powerhouse-and-provident-partner-for-768-acre-data-center-campus-in-texas"
+    ],
+    "party_note": "TDLR: tenant 'Not Assigned', privately funded, funds not provided by tenant; Ci Architects is design firm. No GC or lender found."
   },
   {
     "name": "Nebius Birmingham, buildings 1-2",
     "location": "Birmingham, AL",
     "owner": "Nebius",
-    "tenant": null,
     "construction_start": "2026-05",
     "expected_completion": null,
     "status": "Counted by Dodge as a May 2026 start at $3.0B",
@@ -547,13 +692,20 @@
     "investment_basis": "estimated",
     "investment_includes_it": false,
     "investment_source": "https://www.construction.com/construction-starts-swell-34-in-may/",
-    "investment_note": "High $3.0B is Dodge's valuation for Buildings 1 and 2 (estimated). Low about $40M is three May 2026 city permits to Hoar Construction (government record via BhamNow; partial). WBHM cites about $36B over 30 years, unattributed. Likely construction-only but not stated."
+    "investment_note": "High $3.0B is Dodge's valuation for Buildings 1 and 2 (estimated). Low about $40M is three May 2026 city permits to Hoar Construction (government record via BhamNow; partial). WBHM cites about $36B over 30 years, unattributed. Likely construction-only but not stated.",
+    "builder": "Hoar Construction (permit holder)",
+    "customer": null,
+    "financers": null,
+    "party_sources": [
+      "https://bhamnow.com/2026/05/18/40-million-permits-birmingham-data-center/",
+      "https://nebius.com/birminghamal"
+    ],
+    "party_note": "No customer or financing named. A suit names Nebius, Hoar, an operator entity (Lakeshore Data Center) and the city; a judge's stop-work ruling was pending per a headline (not read)."
   },
   {
     "name": "Amazon / STACK Blanchard State Line",
     "location": "Mooringsport, LA",
-    "owner": "STACK Infrastructure",
-    "tenant": "Amazon",
+    "owner": "STACK Infrastructure (developer/owner)",
     "construction_start": "2026-08",
     "expected_completion": null,
     "status": "Counted by Dodge as an August 2026 start at $3.5B, 780 MW",
@@ -574,6 +726,14 @@
     "investment_basis": "estimated",
     "investment_includes_it": false,
     "investment_source": "https://www.construction.com/construction-starts-fall-back-24-8-in-august/",
-    "investment_note": "Dodge $3.5B for this site. Confirmed at program level, not site level: Amazon/STACK $12B for Caddo and Bossier (Feb 2026), raised to $18B for three campuses (Aug 2026): https://lailluminator.com/2026/08/18/amazons-data-center-network-in-northwest-louisiana-is-going-to-get-bigger/ (snippet). IT inclusion not stated."
+    "investment_note": "Dodge $3.5B for this site. Confirmed at program level, not site level: Amazon/STACK $12B for Caddo and Bossier (Feb 2026), raised to $18B for three campuses (Aug 2026): https://lailluminator.com/2026/08/18/amazons-data-center-network-in-northwest-louisiana-is-going-to-get-bigger/ (snippet). IT inclusion not stated.",
+    "builder": null,
+    "customer": "Amazon",
+    "financers": "Amazon reported to fund construction (one report says Amazon leases from STACK; conflict)",
+    "party_sources": [
+      "https://www.commercialsearch.com/news/amazon-stack-to-build-12b-louisiana-data-center-campuses/",
+      "https://shreveportbossierjournal.com/2026/02/24/amazon-announces-12-billion-data-center-investment-across-caddo-bossier-parishes"
+    ],
+    "party_note": "Financing arrangement is reporting and inconsistent; STACK's own financiers not found."
   }
 ]
