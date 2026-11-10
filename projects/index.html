@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects · How much will US data center construction spending be in October 2026? · Event Neutral</title>
+<link rel="stylesheet" href="https://eventneutral.com/kit/v1/kit.css?v=3">
+<script src="https://eventneutral.com/kit/v1/theme.js"></script>
+<style>
+  .sum { font-size: 21px; line-height: 1.45; margin: 14px 0 6px; max-width: 34em; font-variant-numeric: tabular-nums; }
+  .sum b { font-weight: 650; }
+  .en-chart text { font-variant-numeric: tabular-nums; }
+  .key { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14.5px; color: var(--ink-soft); margin: 10px 0 0; }
+  .key i { display: inline-block; width: 12px; height: 10px; vertical-align: middle; margin-right: 6px; }
+  .scroll { overflow-x: auto; }
+  table.t { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 12px 0 14px; }
+  table.t th, table.t td { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.t th { color: var(--ink-faint); font-weight: 600; white-space: nowrap; }
+  table.t th.n { text-align: right; }
+  table.t td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.t td.d { font-weight: 700; text-align: center; }
+  .up { color: var(--s1); } .down { color: var(--s2); } .mix { color: var(--ink-soft); }
+  @media (max-width: 640px) { table.t { font-size: 13px; } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap wide bar-inner">
+    <a class="brand" href="https://eventneutral.com/">Event&nbsp;Neutral</a>
+    <nav class="nav">
+      <a href="https://eventneutral.com/">Home</a>
+      <a href="https://eventneutral.com/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap wide">
+    <div class="kicker">Started 2026-11-10</div>
+    <h1>How much will US data center construction spending be in October 2026?</h1>
+    <nav class="wiki"><a href="../">Question</a> <a href="../model/">Model</a> <a href="./" aria-current="page">Projects</a></nav>
+    <p class="src"><a href="https://github.com/jmfinnegan12/data-center-spending-model">GitHub</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/issues/new">suggest a change</a> · <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/CONTRIBUTING.md">how to contribute</a></p>
+
+    <h2>Largest projects</h2>
+    <p class="sum" id="total"></p>
+    <div class="en-chart" id="bars"></div>
+    <div class="key" aria-hidden="true">
+      <span><i style="background:var(--s1)"></i>Latest signal up</span>
+      <span><i style="background:var(--s2)"></i>Down or mixed</span>
+      <span><i style="background:var(--ink-faint)"></i>No signal</span>
+    </div>
+    <p class="muted measure">Estimated construction per year: capacity × about $11M per MW for buildings, power and cooling, spread over the build. The $11M is an assumption, not from a source; announced costs often include servers.</p>
+    <div class="scroll"><table class="t" id="projects"></table></div>
+
+    <h2>Signals before each release</h2>
+    <p class="measure">Contractor and supplier results, company comments, project news and policy, each counted against the first release it came before. Up: faster than the base rate.</p>
+    <div class="scroll"><table class="t" id="lookback"></table></div>
+    <p class="measure">Signals leaned up before every release, and five of six misses were up: no better than guessing slightly above the base rate each month.</p>
+
+    <h2>Signals for October</h2>
+    <div class="scroll"><table class="t" id="latest"></table></div>
+
+    <p class="muted" style="margin-top:28px">Last updated 2026-11-10 · <a href="https://github.com/jmfinnegan12/data-center-spending-model/commits/main/projects/index.html">history</a> · data: <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/projects.json">projects</a>, <a href="https://github.com/jmfinnegan12/data-center-spending-model/blob/main/data/signals.csv">signals</a>, each with its sources</p>
+    <p class="muted">Nothing here is financial advice or a recommendation to trade.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap wide foot-inner">© 2026 Temerity Ventures LLC · <a href="mailto:info@eventneutral.com">Contact</a></div>
+</footer>
+
+<script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
+<script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
+<script>
+Promise.all([
+  fetch('../data/projects.json', { cache: 'no-cache' }).then((r) => r.json()),
+  d3.csv('../data/signals.csv'),
+  d3.csv('../data/first_prints.csv'),
+]).then(([projects, signals, fp]) => {
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const tone = (d) => (d === '+' ? 'var(--s1)' : d === '-' || d === 'mixed' ? 'var(--s2)' : 'var(--ink-faint)');
+  const dcls = (d) => (d === '+' ? 'up' : d === '-' ? 'down' : 'mix');
+  const dtxt = (d) => (d === '+' ? '↑' : d === '-' ? '↓' : d === 'mixed' ? '↕' : '–');
+
+  // ---------- projects ----------
+  const latest = fp.filter((r) => r.first_print).slice(-1)[0];
+  const census = +latest.first_print / 1000;
+  const est = projects.filter((p) => p.est_annual_construction_usd_b != null).sort((a, b) => b.est_annual_construction_usd_b - a.est_annual_construction_usd_b);
+  const sum = d3.sum(est, (p) => p.est_annual_construction_usd_b);
+  document.getElementById('total').innerHTML = `${est.length} projects, estimated: <b>$${sum.toFixed(0)}B</b> a year, against Census's <b>$${census.toFixed(1)}B</b> for ${d3.utcFormat('%B')(d3.utcParse('%Y-%m')(latest.reference_month))}`;
+
+  EN.chart.frame(document.getElementById('bars'), () => est.length * 24 + 34, ({ svg, width, height }) => {
+    svg.selectAll('*').remove();
+    const narrow = width < 560;
+    const m = { t: 6, r: 44, b: 28, l: narrow ? 150 : 250 };
+    const y = d3.scaleBand(est.map((p) => p.name), [m.t, height - m.b]).padding(0.25);
+    const x = d3.scaleLinear([0, d3.max(est, (p) => p.est_annual_construction_usd_b)], [m.l, width - m.r]).nice();
+    svg.attr('aria-label', 'Estimated construction per year by project: ' + est.map((p) => `${p.name} $${p.est_annual_construction_usd_b}B`).join(', '));
+    svg.append('g').attr('class', 'axis').attr('transform', `translate(0,${height - m.b})`).call(d3.axisBottom(x).ticks(5).tickSize(4).tickFormat((v) => `$${v}B`));
+    const g = svg.append('g').selectAll('g').data(est).join('g');
+    g.append('text').attr('class', 'note').attr('x', m.l - 8).attr('y', (p) => y(p.name) + y.bandwidth() / 2).attr('dy', '0.35em').attr('text-anchor', 'end').style('fill', 'var(--ink)')
+      .text((p) => (narrow && p.name.length > 22 ? p.name.slice(0, 21) + '…' : p.name));
+    g.append('rect').attr('x', m.l).attr('y', (p) => y(p.name)).attr('height', y.bandwidth()).attr('width', (p) => x(p.est_annual_construction_usd_b) - m.l).attr('rx', 1.5).attr('fill', (p) => tone(p.direction));
+    g.append('text').attr('class', 'note').attr('x', (p) => x(p.est_annual_construction_usd_b) + 6).attr('y', (p) => y(p.name) + y.bandwidth() / 2).attr('dy', '0.35em').text((p) => `$${p.est_annual_construction_usd_b}B`);
+  });
+
+  const money = (v) => (v == null ? '–' : `$${v}B`);
+  document.getElementById('projects').innerHTML =
+    '<thead><tr><th>Project</th><th>Location</th><th>Owner</th><th class="n">Announced</th><th class="n">MW</th><th>Started</th><th>Status</th><th>Signal</th></tr></thead><tbody>' +
+    projects.map((p) => `<tr><td><a href="${esc(p.sources[0])}">${esc(p.name)}</a></td><td>${esc(p.location)}</td><td>${esc(p.owner)}</td>` +
+      `<td class="n">${money(p.announced_cost_usd_b)}</td><td class="n">${p.capacity_mw == null ? '–' : d3.format(',')(p.capacity_mw)}</td><td>${esc(p.construction_start || '–')}</td>` +
+      `<td>${esc(p.status)}</td><td class="d ${dcls(p.direction)}" title="${esc(p.latest_signal)}">${dtxt(p.direction)}</td></tr>`).join('') + '</tbody>';
+
+  // ---------- look-back ----------
+  const runRows = fp.filter((r) => r.first_print).map((r) => ({ m: r.reference_month, v: +r.first_print / 1000 }));
+  const miss = {};
+  for (let i = 2; i < runRows.length; i++) miss[runRows[i].m] = runRows[i].v - (2 * runRows[i - 1].v - runRows[i - 2].v);
+  const months = [...new Set(signals.map((s) => s.release_month))].sort().filter((mm) => miss[mm] != null);
+  const fmtM = (mm) => d3.utcFormat('%b')(d3.utcParse('%Y-%m')(mm));
+  document.getElementById('lookback').innerHTML =
+    '<thead><tr><th>Month</th><th class="n">Up</th><th class="n">Down</th><th class="n">Mixed</th><th class="n">Base-rate miss</th><th>&nbsp;Same direction</th></tr></thead><tbody>' +
+    months.map((mm) => {
+      const s = signals.filter((x) => x.release_month === mm);
+      const up = s.filter((x) => x.direction === '+').length, dn = s.filter((x) => x.direction === '-').length, mx = s.length - up - dn;
+      const v = miss[mm];
+      return `<tr><td>${fmtM(mm)}${mm.endsWith('-05') ? ' (yearly revision)' : ''}</td><td class="n">${up}</td><td class="n">${dn}</td><td class="n">${mx}</td>` +
+        `<td class="n">${v >= 0 ? '+' : '−'}$${Math.abs(v).toFixed(1)}B</td><td>${(up > dn) === (v > 0) ? 'Yes' : 'No'}</td></tr>`;
+    }).join('') + '</tbody>';
+
+  // ---------- latest signals: Q3 results season onward ----------
+  const recent = signals.filter((s) => s.signal_date >= '2026-10-15').sort((a, b) => (a.signal_date < b.signal_date ? 1 : -1));
+  document.getElementById('latest').innerHTML =
+    '<thead><tr><th>Date</th><th>Who</th><th>What</th><th>Direction</th><th>Strength</th><th>Source quality</th></tr></thead><tbody>' +
+    recent.map((s) => `<tr><td style="white-space:nowrap">${esc(s.signal_date)}</td><td>${esc(s.company_or_project)}</td><td><a href="${esc(s.url)}">${esc(s.what)}</a></td>` +
+      `<td class="d ${dcls(s.direction)}">${dtxt(s.direction)}</td><td>${esc(s.strength)}</td><td>${esc(s.veracity)}</td></tr>`).join('') + '</tbody>';
+}).catch((e) => { document.getElementById('total').textContent = 'The data could not be loaded. Reload the page.'; console.error(e); });
+</script>
+</body>
+</html>
