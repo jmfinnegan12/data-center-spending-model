@@ -27,14 +27,11 @@ Promise.all([
   // ---------- inputs ----------
   const INPUTS = [
     { key: 'CHANGE', label: 'Change carried forward from September', min: -10, max: 40, sliderMin: 0, sliderMax: 25, step: 0.1,
-      note: `Added to September's first print. The last change, first print to first print, was ${b1(M.lastChange)}.` },
+      note: `Last change, first print to first print: ${b1(M.lastChange)}.` },
     { key: 'ADJUST', label: 'Adjustment for the current state', min: -30, max: 30, sliderMin: -15, sliderMax: 15, step: 0.1 },
-    { key: 'SPREAD', label: 'Size of a typical miss', min: 0.2, max: 20, sliderMin: 0.5, sliderMax: 12, step: 0.1,
-      note: 'One standard deviation. With no lean and tail weight 1, about two thirds of outcomes land within this distance of the mean.' },
-    { key: 'LEAN', label: 'Lean', min: -1.5, max: 1.5, step: 0.05, unit: '',
-      note: 'Skewness. 0 is symmetric. Above 0 stretches the tail above the mean and shifts the bulk of outcomes below it; below 0 the reverse. Mean and standard deviation stay as set.' },
-    { key: 'TAILS', label: 'Tail weight', min: 0.5, max: 2.5, step: 0.05, unit: '',
-      note: 'Kurtosis. 1 is the bell curve. Above 1 makes big misses either way more likely and the middle narrower; below 1 the reverse. Mean and standard deviation stay as set.' },
+    { key: 'SPREAD', label: 'Standard deviation', min: 0.2, max: 20, sliderMin: 0.5, sliderMax: 12, step: 0.1 },
+    { key: 'SKEW', label: 'Skewness', min: -1.5, max: 1.5, step: 0.05, unit: '' },
+    { key: 'KURT', label: 'Kurtosis', min: 2.2, max: 12, sliderMax: 9, step: 0.1, unit: '' },
   ];
   const clone = (o) => JSON.parse(JSON.stringify(o));
   let p = clone(M.DEFAULTS);
@@ -167,7 +164,7 @@ Promise.all([
     const mo = M.moments(p);
     const f2 = (v) => (Math.abs(v) < 0.005 ? '0.00' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(2));
     document.getElementById('moments').innerHTML = `<span>Mean <b>${b1(mo.mean)}</b></span><span>Standard deviation <b>${b1(mo.sd)}</b></span>` +
-      `<span>Skewness <b>${f2(mo.skew)}</b></span><span>Excess kurtosis <b>${f2(mo.exkurt)}</b></span>`;
+      `<span>Skewness <b>${f2(mo.skew)}</b></span><span>Kurtosis <b>${mo.kurt.toFixed(2)}</b></span>`;
     series.redraw(); dist.redraw(); ladder.redraw();
   }
   function changed() {

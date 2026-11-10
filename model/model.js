@@ -1,8 +1,8 @@
 // The forecast's arithmetic. code/strike_probabilities.py is the same model in Python; a change to the math goes in both.
 //
-// The outcome is drawn from a sinh-arcsinh distribution (Jones and Pewsey, 2009), rescaled so that its mean and
-// standard deviation are exactly the ones the inputs set. Lean bends it to one side (skewness); tail weight fattens or
-// thins both tails (kurtosis). With lean 0 and tail weight 1 it is the ordinary bell curve.
+// The outcome is drawn from a sinh-arcsinh distribution (Jones and Pewsey, 2009). Its two shape parameters are solved
+// so that its skewness and kurtosis are the ones the inputs set, then it is rescaled to the input mean and standard
+// deviation. Skewness 0 and kurtosis 3 give the normal distribution.
 (function () {
   // erf by Abramowitz and Stegun 7.1.26 (error below 1.5e-7), as in the Python
   function erf(z) {
@@ -19,7 +19,7 @@
   // Its mean, standard deviation, skewness and excess kurtosis, by the trapezoid rule over Z in [-10, 10].
   function shape(lean, tails) {
     const d = 1 / tails;
-    const N = 4000, a = -10, h = 20 / N;
+    const N = 2000, a = -10, h = 20 / N;
     let m1 = 0, m2 = 0, m3 = 0, m4 = 0;
     for (let i = 0; i <= N; i++) {
       const z = a + i * h;
@@ -31,6 +31,19 @@
     const c3 = m3 - 3 * m1 * m2 + 2 * m1 ** 3;
     const c4 = m4 - 4 * m1 * m3 + 6 * m1 * m1 * m2 - 3 * m1 ** 4;
     return { d, lean, m: m1, s, skew: c3 / s ** 3, exkurt: c4 / (v * v) - 3 };
+  }
+
+  // Shape parameters with the target skewness and excess kurtosis, by alternating bisection.
+  // Where the pair is out of reach, the result stops at the nearest edge; moments() reports what was reached.
+  function solve(skew, exkurt) {
+    if (Math.abs(skew) < 1e-9 && Math.abs(exkurt) < 1e-9) return shape(0, 1);
+    const bisect = (f, lo, hi) => { for (let i = 0; i < 30; i++) { const mid = (lo + hi) / 2; if (f(mid) < 0) lo = mid; else hi = mid; } return (lo + hi) / 2; };
+    let lean = 0, tails = 1;
+    for (let k = 0; k < 12; k++) {
+      lean = bisect((l) => shape(l, tails).skew - skew, -3, 3);
+      tails = bisect((t) => shape(lean, t).exkurt - exkurt, 0.4, 3);
+    }
+    return shape(lean, tails);
   }
 
   // the chance the outcome is above x, and its density at x, for mean mu and standard deviation sd
@@ -52,7 +65,7 @@
     Object.keys(cfg.inputs).forEach((k) => { DEFAULTS[k] = cfg.inputs[k].value; });
     let cache = null;
     const sh = (p) => {
-      if (!cache || cache.lean !== p.LEAN || cache.tails !== p.TAILS) cache = { lean: p.LEAN, tails: p.TAILS, v: shape(p.LEAN, p.TAILS) };
+      if (!cache || cache.skew !== p.SKEW || cache.kurt !== p.KURT) cache = { skew: p.SKEW, kurt: p.KURT, v: solve(p.SKEW, p.KURT - 3) };
       return cache.v;
     };
     const mean = (p) => last.value + p.CHANGE + p.ADJUST;
@@ -63,7 +76,7 @@
       // the base rate (M1): last first print plus the change carried forward
       baseRate: (p) => last.value + p.CHANGE,
       centre: mean,
-      moments: (p) => { const s = sh(p); return { mean: mean(p), sd: p.SPREAD, skew: s.skew, exkurt: s.exkurt }; },
+      moments: (p) => { const s = sh(p); return { mean: mean(p), sd: p.SPREAD, skew: s.skew, kurt: s.exkurt + 3 }; },
       above: (x, p) => above(x, mean(p), p.SPREAD, sh(p)),
       density: (x, p) => density(x, mean(p), p.SPREAD, sh(p)),
       // the value with chance q below it
@@ -86,5 +99,5 @@
     return out;
   }
 
-  window.ForecastModel = { fromConfig, backtest, shape };
+  window.ForecastModel = { fromConfig, backtest, shape, solve };
 })();

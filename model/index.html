@@ -93,25 +93,19 @@
     <p class="moments" id="moments"></p>
     <div class="en-chart" id="dist"></div>
     <div class="en-chart" id="ladder"></div>
-    <p class="muted hint">Pick a strike to shade the chance above it. Once an input is changed, the dashed curve is the forecast at its starting values.</p>
+    <p class="muted hint">Pick a strike. Dashed: the starting values.</p>
 
     <h2>How each input moves the distribution</h2>
     <table class="eff">
       <thead><tr><th>Input</th><th>Mean</th><th>Standard deviation</th><th>Skewness</th><th>Kurtosis</th></tr></thead>
       <tbody>
-        <tr><td>Change carried forward</td><td>Moves it, dollar for dollar</td><td>No effect</td><td>No effect</td><td>No effect</td></tr>
-        <tr><td>Adjustment for the current state</td><td>Moves it, dollar for dollar</td><td>No effect</td><td>No effect</td><td>No effect</td></tr>
-        <tr><td>Size of a typical miss</td><td>No effect</td><td>Sets it</td><td>No effect</td><td>No effect</td></tr>
-        <tr><td>Lean</td><td>Held</td><td>Held</td><td>Sets it</td><td>Raises it a little</td></tr>
-        <tr><td>Tail weight</td><td>Held</td><td>Held</td><td>No effect</td><td>Sets it</td></tr>
+        <tr><td>Change carried forward</td><td>+$1B per $1B</td><td>–</td><td>–</td><td>–</td></tr>
+        <tr><td>Adjustment for the current state</td><td>+$1B per $1B</td><td>–</td><td>–</td><td>–</td></tr>
+        <tr><td>Standard deviation</td><td>–</td><td>Sets it</td><td>–</td><td>–</td></tr>
+        <tr><td>Skewness</td><td>–</td><td>–</td><td>Sets it</td><td>–</td></tr>
+        <tr><td>Kurtosis</td><td>–</td><td>–</td><td>–</td><td>Sets it</td></tr>
       </tbody>
     </table>
-    <ul class="measure">
-      <li><strong>Mean:</strong> where the distribution sits. The change carried forward and the adjustment do the same thing to it; they are kept apart because one is the base rate and the other is the judgment added to it.</li>
-      <li><strong>Standard deviation:</strong> how wide it is.</li>
-      <li><strong>Skewness:</strong> which side has the long tail. Leaning up keeps the mean where it is but puts a small chance of a big upside surprise against a larger chance of a modest shortfall.</li>
-      <li><strong>Kurtosis:</strong> how much of the chance sits in the tails rather than the shoulders. More of it means outcomes are either close to the mean or far from it.</li>
-    </ul>
 
     <div class="inputs-head">
       <h2>Inputs</h2>
@@ -128,16 +122,16 @@
           <dd>The base rate is the prior month adjusted by the rate of change. Five ways of computing it were tested month by month against first prints; the last month's change missed least and had the smallest worst miss, so it is the one used. Adding the change in the change made the misses larger.</dd>
           <dt>Adjustment for the current state</dt>
           <dd>Not yet set.</dd>
-          <dt>Size of a typical miss</dt>
-          <dd>A placeholder, not yet chosen. Measured as one standard deviation of the base rate's misses, it is $2.5B on first prints from March to September without May, $4.4B on Census's current figures over the last 12 months, and $7.2B over the last 24.<sup class="fn"><a href="#s2">2</a></sup></dd>
-          <dt>Lean and tail weight</dt>
-          <dd>Not yet set. They start at a symmetric bell curve.</dd>
+          <dt>Standard deviation</dt>
+          <dd>A placeholder, not yet chosen. The standard deviation of the base rate's misses is $2.5B on first prints from March to September without May, $4.4B on Census's current figures over the last 12 months, and $7.2B over the last 24.<sup class="fn"><a href="#s2">2</a></sup></dd>
+          <dt>Skewness and kurtosis</dt>
+          <dd>Not yet set: 0 and 3, the normal distribution.</dd>
         </dl>
       </details>
       <details class="en-q">
         <summary>Assumptions</summary>
         <ul>
-          <li>Misses follow a sinh-arcsinh distribution, a bell curve that can be bent to one side and given heavier or lighter tails while its mean and standard deviation stay fixed.<sup class="fn"><a href="#s7">7</a></sup></li>
+          <li>The outcome follows a sinh-arcsinh distribution with the input mean, standard deviation, skewness and kurtosis.<sup class="fn"><a href="#s7">7</a></sup> Some pairs of high skewness and low kurtosis cannot be reached; the readout above the chart shows the values used.</li>
           <li>October follows the same rule as the months before it.</li>
           <li>The December 1 release carries no yearly revision. Census makes that each July.<sup class="fn"><a href="#s6">6</a></sup></li>
         </ul>
@@ -200,7 +194,7 @@
 
 <script src="https://eventneutral.com/kit/v1/vendor/d3.v7.min.js"></script>
 <script src="https://eventneutral.com/kit/v1/kit.js?v=2"></script>
-<script src="model.js?v=dc2"></script>
-<script src="page.js?v=dc4"></script>
+<script src="model.js?v=dc3"></script>
+<script src="page.js?v=dc5"></script>
 </body>
 </html>

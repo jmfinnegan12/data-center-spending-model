@@ -27,15 +27,15 @@
     },
     "SPREAD": {
       "value": 4.4,
-      "note": "one standard deviation of the miss; placeholder, not yet chosen"
+      "note": "standard deviation of the outcome; placeholder, not yet chosen"
     },
-    "LEAN": {
+    "SKEW": {
       "value": 0.0,
-      "note": "skewness: 0 is symmetric; positive puts a longer tail above, negative below"
+      "note": "skewness of the outcome; 0 is symmetric"
     },
-    "TAILS": {
-      "value": 1.0,
-      "note": "tail weight: 1 is the bell curve; above 1 fattens both tails, below 1 thins them"
+    "KURT": {
+      "value": 3.0,
+      "note": "kurtosis of the outcome; 3 is the normal distribution"
     }
   }
 }

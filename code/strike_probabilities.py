@@ -33,7 +33,7 @@ def shape(lean, tails):
     """Sinh-arcsinh shape Y = sinh((asinh(Z) + lean) / d), d = 1 / tails, Z standard normal.
     Mean, standard deviation, skewness and excess kurtosis by the trapezoid rule over Z in [-10, 10], as in model.js."""
     d = 1 / tails
-    N, a = 4000, -10.0
+    N, a = 2000, -10.0
     h = 20 / N
     m1 = m2 = m3 = m4 = 0.0
     for i in range(N + 1):
@@ -46,6 +46,27 @@ def shape(lean, tails):
     c3 = m3 - 3 * m1 * m2 + 2 * m1 ** 3
     c4 = m4 - 4 * m1 * m3 + 6 * m1 * m1 * m2 - 3 * m1 ** 4
     return {"d": d, "lean": lean, "m": m1, "s": s, "skew": c3 / s ** 3, "exkurt": c4 / v ** 2 - 3}
+
+
+def bisect(f, lo, hi):
+    for _ in range(30):
+        mid = (lo + hi) / 2
+        if f(mid) < 0:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def solve(skew, exkurt):
+    """Shape parameters with the target skewness and excess kurtosis, by alternating bisection, as in model.js."""
+    if abs(skew) < 1e-9 and abs(exkurt) < 1e-9:
+        return shape(0, 1)
+    lean, tails = 0.0, 1.0
+    for _ in range(12):
+        lean = bisect(lambda l: shape(l, tails)["skew"] - skew, -3, 3)
+        tails = bisect(lambda t: shape(lean, t)["exkurt"] - exkurt, 0.4, 3)
+    return shape(lean, tails)
 
 
 def above(x, mu, sd, sh):
@@ -79,9 +100,9 @@ def main():
     base = last + p["CHANGE"]
     centre = base + p["ADJUST"]
     print(f"{fp[-1][0]} first print {last:.3f}; change carried forward {p['CHANGE']:.3f}; base rate {base:.3f}")
-    sh = shape(p["LEAN"], p["TAILS"])
+    sh = solve(p["SKEW"], p["KURT"] - 3)
     print(f"adjustment {p['ADJUST']:+.3f}; mean {centre:.3f}; standard deviation {p['SPREAD']:.3f}")
-    print(f"lean {p['LEAN']}; tail weight {p['TAILS']}; skewness {sh['skew']:.3f}; excess kurtosis {sh['exkurt']:.3f}\n")
+    print(f"skewness {sh['skew']:.3f}; kurtosis {sh['exkurt'] + 3:.3f}\n")
     print("Chance the October first print is above each strike")
     for x in cfg["strikes"]:
         print(f"  {x:6.1f}  {above(x, centre, p['SPREAD'], sh) * 100:5.1f}%")
